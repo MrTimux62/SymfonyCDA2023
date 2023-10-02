@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Sorties |
+	{{ parent() }}
+{% endblock %}
+
 {% block body %}
 
 	<div class="text-end mb-5 me-5">
@@ -49,7 +53,7 @@
 				</div>
 				<div class="form-check form-switch">
 					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
-					<label class="form-check-label" for="flexSwitchCheckChecked">Sorties auxquelles je usis inscrit/e</label>
+					<label class="form-check-label" for="flexSwitchCheckChecked">Sorties auxquelles je suis inscrit/e</label>
 				</div>
 				<div class="form-check form-switch">
 					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
@@ -178,8 +182,4 @@
 		<button class="btn btn-outline-success">Créer une sortie</button>
 	</div>
 
-{% endblock %}
-
-{% block title %}Home |
-	{{ parent() }}
 {% endblock %}

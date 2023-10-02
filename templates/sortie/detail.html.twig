@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Afficher une sortie |
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
 
     <div class="card">
@@ -11,60 +15,90 @@
                 <div class="row">
                     <div class="col-md-6">
                         <ul class="list-group">
-                            <li class="list-group-item">Nom de la sortie : Sortie exemple</li>
-                            <li class="list-group-item">Date et heure de la sortie : 01/10/2023 14:00</li>
-                            <li class="list-group-item">Date limite d'inscription : 25/09/2023</li>
-                            <li class="list-group-item">Nombre de places : 20</li>
-                            <li class="list-group-item">Durée : 3 heures</li>
-                            <li class="list-group-item">Description et infos : Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Nom de la sortie :</span>
+                                <span class="info-value">Philo</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Date et heure de la sortie :</span>
+                                <span class="info-value">19/07/2018 23:45</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Date limite d'inscription : </span>
+                                <span class="info-value">19/07/2018</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Nombre de places : </span>
+                                <span class="info-value">8</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Durée : </span>
+                                <span class="info-value">90 minutes</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Description et infos : </span>
+                                <span class="info-value">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-md-6">
                         <ul class="list-group">
-                            <li class="list-group-item">Campus : Campus exemple</li>
-                            <li class="list-group-item">Lieu : Lieu exemple</li>
-                            <li class="list-group-item">Rue : Rue de l'exemple</li>
-                            <li class="list-group-item">Code postal : 12345</li>
-                            <li class="list-group-item">Latitude : 45.6789</li>
-                            <li class="list-group-item">Longitude : -123.4567</li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Campus : </span>
+                                <span class="info-value">SAINT HERBLAIN</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Lieu : </span>
+                                <span class="info-value">Lieu exemple</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Rue : </span>
+                                <span class="info-value">Rue de l'exemple</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Code postal : </span>
+                                <span class="info-value">12345</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Latitude : </span>
+                                <span class="info-value">45.6789</span>
+                            </li>
+                            <li class="list-group-item info">
+                                <span class="info-label">Longitude : </span>
+                                <span class="info-value">-123.4567</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="mt-4">
-                    <h2>Liste des participants inscrits</h2>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Pseudo</th>
-                            <th>Nom</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>User1</td>
-                            <td>Nom1</td>
-                        </tr>
-                        <tr>
-                            <td>User2</td>
-                            <td>Nom2</td>
-                        </tr>
-                        <tr>
-                            <td>User3</td>
-                            <td>Nom3</td>
-                        </tr>
-                        <tr>
-                            <td>User4</td>
-                            <td>Nom4</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <h6>Liste des participants inscrits :</h6>
+                    <div class="col-3">
+                        <table class="table table-striped col-6">
+                            <thead>
+                            <tr>
+                                <th>Pseudo</th>
+                                <th>Nom</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>JBL</td>
+                                <td>Jean-Baptiste LAMARCK</td>
+                            </tr>
+                            <tr>
+                                <td>YC44</td>
+                                <td>Yves COUSTEAU</td>
+                            </tr>
+                            <tr>
+                                <td>MC</td>
+                                <td>Michel CONSTANT</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-{% endblock %}
-
-{% block title %}Home |
-    {{ parent() }}
 {% endblock %}

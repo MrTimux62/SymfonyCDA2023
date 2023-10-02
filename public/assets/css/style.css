@@ -1231,3 +1231,22 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+/*--------------------------------------------------------------
+# Sortie détail
+--------------------------------------------------------------*/
+.list-group-item.info {
+  display: flex;
+}
+
+.info-label {
+  font-weight: bold;
+  display: block;
+  width: 210px;
+}
+
+.info-value {
+  display: block;
+  width: calc(100% - 200px);
+  vertical-align: top;
+}
