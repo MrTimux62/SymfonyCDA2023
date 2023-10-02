@@ -1,8 +1,183 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<h2>Ceci est la page d'accueil !</h2>
-	<button class="btn btn-primary">Test</button>
+
+	<div class="text-end mb-5 me-5">
+		<h5>Date du jour : 19/07/2018</h5>
+		<h5>Participant : Jeanine L.</h5>
+	</div>
+
+	<div class="card">
+		<div class="card-header">
+			<h5 class="m-0">Filtrer les sorties</h5>
+		</div>
+		<div class="card-body row">
+			<div class="col-md-6">
+				<div class="row mb-3">
+					<label class="col-sm-4 col-form-label">Campus</label>
+					<div class="col-sm-8">
+						<select class="form-select" aria-label="Default select example">
+							<option selected="">SAINT HERBLAIN</option>
+							<option value="1">One</option>
+							<option value="2">Two</option>
+							<option value="3">Three</option>
+						</select>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="inputText" class="col-sm-4 col-form-label">Le nom de la sortie contient :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="inputDate" class="col-sm-2 col-form-label">Entre</label>
+					<div class="col-sm-4">
+						<input type="date" class="form-control">
+					</div>
+					<label for="inputDate" class="col-sm-2 col-form-label">Et</label>
+					<div class="col-sm-4">
+						<input type="date" class="form-control">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4 d-grid justify-content-center">
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+					<label class="form-check-label" for="flexSwitchCheckChecked">Sorties dont je suis l'organisateur/trice</label>
+				</div>
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+					<label class="form-check-label" for="flexSwitchCheckChecked">Sorties auxquelles je usis inscrit/e</label>
+				</div>
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+					<label class="form-check-label" for="flexSwitchCheckChecked">Sorties auxquelles je ne suis pas inscrit/e</label>
+				</div>
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+					<label class="form-check-label" for="flexSwitchCheckDefault">Sorties passées</label>
+				</div>
+			</div>
+
+			<div class="col-md-2 align-self-center">
+				<button class="btn btn-lg btn-outline-primary">Rechercher</button>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card">
+
+		<div class="card-body">
+
+			<!-- Table with stripped rows -->
+			<table class="table table-striped datatable">
+				<thead>
+				<tr>
+					<th scope="col">Nom de la sortie</th>
+					<th scope="col">Date de la sortie</th>
+					<th scope="col">Clôture</th>
+					<th scope="col">inscrits/places</th>
+					<th scope="col">Etat</th>
+					<th scope="col">Inscrit</th>
+					<th scope="col">Organisateur</th>
+					<th scope="col">Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<th scope="row">Philo</th>
+					<td>19/07/2018 23:45</td>
+					<td>19/07/2018</td>
+					<td>8/8</td>
+					<td>En cours</td>
+					<td>X</td>
+					<td>Spinoz A.</td>
+					<td><a href="">Afficher</a></td>
+				</tr>
+				<tr>
+					<th scope="row">Philo</th>
+					<td>19/07/2018 23:45</td>
+					<td>19/07/2018</td>
+					<td>8/8</td>
+					<td>En cours</td>
+					<td>X</td>
+					<td>Spinoz A.</td>
+					<td><a href="">Afficher</a></td>
+				</tr>
+				<tr>
+					<th scope="row">Philo</th>
+					<td>19/07/2018 23:45</td>
+					<td>19/07/2018</td>
+					<td>8/8</td>
+					<td>En cours</td>
+					<td>X</td>
+					<td>Spinoz A.</td>
+					<td><a href="">Afficher</a></td>
+				</tr>
+				<tr>
+					<th scope="row">Philo</th>
+					<td>19/07/2018 23:45</td>
+					<td>19/07/2018</td>
+					<td>8/8</td>
+					<td>En cours</td>
+					<td>X</td>
+					<td>Spinoz A.</td>
+					<td><a href="">Afficher</a></td>
+				</tr>
+				<tr>
+					<th scope="row">Philo</th>
+					<td>19/07/2018 23:45</td>
+					<td>19/07/2018</td>
+					<td>8/8</td>
+					<td>En cours</td>
+					<td>X</td>
+					<td>Spinoz A.</td>
+					<td><a href="">Afficher</a></td>
+				</tr><tr>
+					<th scope="row">Philo</th>
+					<td>19/07/2018 23:45</td>
+					<td>19/07/2018</td>
+					<td>8/8</td>
+					<td>En cours</td>
+					<td>X</td>
+					<td>Spinoz A.</td>
+					<td><a href="">Afficher</a></td>
+				</tr>
+				<tr>
+					<th scope="row">Philo</th>
+					<td>19/07/2018 23:45</td>
+					<td>19/07/2018</td>
+					<td>8/8</td>
+					<td>En cours</td>
+					<td>X</td>
+					<td>Spinoz A.</td>
+					<td><a href="">Afficher</a></td>
+				</tr>
+				<tr>
+					<th scope="row">Philo</th>
+					<td>19/07/2018 23:45</td>
+					<td>19/07/2018</td>
+					<td>8/8</td>
+					<td>En cours</td>
+					<td>X</td>
+					<td>Spinoz A.</td>
+					<td><a href="">Afficher</a></td>
+				</tr>
+				</tbody>
+			</table>
+			<!-- End Table with stripped rows -->
+
+		</div>
+
+	</div>
+
+	<div>
+		<button class="btn btn-outline-success">Créer une sortie</button>
+	</div>
+
 {% endblock %}
 
 {% block title %}Home |
