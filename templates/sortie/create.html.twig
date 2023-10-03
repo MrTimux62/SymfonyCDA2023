@@ -6,12 +6,12 @@
 
 {% block body %}
 
-    <div class="card">
-        <div class="card-header">
-            <h5 class="m-0">Créer une sortie</h5>
-        </div>
-        <div class="card-body">
-            <form method="post" action="">
+    <form method="post" action="" class="sortie_create_form">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="m-0">Créer une sortie</h5>
+            </div>
+            <div class="card-body">
                 <div class="container mt-5">
                     <div class="row">
                         <div class="col-md-6">
@@ -34,11 +34,13 @@
                                 </li>
                                 <li class="list-group-item info">
                                     <label for="sortie_duration" class="info-label">Durée : </label>
-                                    <input type="number" step="1" min="1" id="sortie_duration" class="info-value"></input><p> minutes</p>
+                                    <div class="info-value">
+                                        <input type="number" step="1" min="1" id="sortie_duration" ></input><span> minutes</span>
+                                    </div>
                                 </li>
                                 <li class="list-group-item info">
                                     <label for="sortie_description" class="info-label">Description et infos : </label>
-                                    <textarea id="sortie_description" class="info-value"></textarea>
+                                    <textarea rows="5" id="sortie_description" class="info-value"></textarea>
                                 </li>
                             </ul>
                         </div>
@@ -82,11 +84,13 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-outline-success">Enregistrer</button>
-                <button class="btn btn-outline-success">Publier la sortie</button>
-                <button class="btn btn-outline-danger">Annuler</button>
-            </form>
+            </div>
         </div>
-    </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-success">Enregistrer</button>
+            <button class="btn btn-outline-success">Publier la sortie</button>
+            <input type="button" class="btn btn-outline-danger" onclick="location.href='{{ path('main_home') }}';" value="Annuler"></input>
+        </div>
+    </form>
 
 {% endblock %}
