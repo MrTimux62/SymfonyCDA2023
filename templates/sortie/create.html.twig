@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une sortie |
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="m-0">Créer une sortie</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" action="">
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item info">
+                                    <label for="sortie_name" class="info-label">Nom de la sortie :</label>
+                                    <input type="text" maxlength="150" id="sortie_name" class="info-value"></input>
+                                </li>
+                                <li class="list-group-item info">
+                                    <label for="sortie_datetime" class="info-label">Date et heure de la sortie :</label>
+                                    <input type="datetime-local" id="sortie_datetime" class="info-value"></input>
+                                </li>
+                                <li class="list-group-item info">
+                                    <label for="sortie_registrationdate" class="info-label">Date limite d'inscription : </label>
+                                    <input type="date" id="sortie_registrationdate" class="info-value"></input>
+                                </li>
+                                <li class="list-group-item info">
+                                    <label for="sortie_placesquantity" class="info-label">Nombre de places : </label>
+                                    <input type="number" step="1" min="1" id="sortie_placesquantity" class="info-value"></input>
+                                </li>
+                                <li class="list-group-item info">
+                                    <label for="sortie_duration" class="info-label">Durée : </label>
+                                    <input type="number" step="1" min="1" id="sortie_duration" class="info-value"></input><p> minutes</p>
+                                </li>
+                                <li class="list-group-item info">
+                                    <label for="sortie_description" class="info-label">Description et infos : </label>
+                                    <textarea id="sortie_description" class="info-value"></textarea>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item info">
+                                    <label for="sortie_campus" class="info-label">Campus : </label>
+                                    <select id="sortie_campus" class="info-value">
+                                        <option>SAINT HERBLAIN</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item info">
+                                    <label for="sortie_city" class="info-label">Ville : </label>
+                                    <select id="sortie_city" class="info-value">
+                                        <option>Ville exemple</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item info">
+                                    <label for="sortie_spot" class="info-label">Lieu : </label>
+                                    <select id="sortie_spot" class="info-value">
+                                        <option>Lieu exemple</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item info">
+                                    <span class="info-label">Rue : </span>
+                                    <span class="info-value">Rue de l'exemple</span>
+                                </li>
+                                <li class="list-group-item info">
+                                    <span class="info-label">Code postal : </span>
+                                    <span class="info-value">12345</span>
+                                </li>
+                                <li class="list-group-item info">
+                                    <span class="info-label">Latitude : </span>
+                                    <span class="info-value">45.6789</span>
+                                </li>
+                                <li class="list-group-item info">
+                                    <span class="info-label">Longitude : </span>
+                                    <span class="info-value">-123.4567</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Enregistrer</button>
+                <button class="btn btn-outline-success">Publier la sortie</button>
+                <button class="btn btn-outline-danger">Annuler</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
