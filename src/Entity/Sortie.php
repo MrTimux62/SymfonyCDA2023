@@ -58,25 +58,25 @@ class Sortie
      * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Participant;
+    private $participant;
 
     /**
      * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Etat;
+    private $etat;
 
     /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Lieu;
+    private $lieu;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Campus;
+    private $campus;
 
     public function __construct()
     {
@@ -189,48 +189,48 @@ class Sortie
 
     public function getParticipant(): ?Participant
     {
-        return $this->Participant;
+        return $this->participant;
     }
 
-    public function setParticipant(?Participant $Participant): self
+    public function setParticipant(?Participant $participant): self
     {
-        $this->Participant = $Participant;
+        $this->participant = $participant;
 
         return $this;
     }
 
     public function getEtat(): ?Etat
     {
-        return $this->Etat;
+        return $this->etat;
     }
 
-    public function setEtat(?Etat $Etat): self
+    public function setEtat(?Etat $etat): self
     {
-        $this->Etat = $Etat;
+        $this->etat = $etat;
 
         return $this;
     }
 
     public function getLieu(): ?Lieu
     {
-        return $this->Lieu;
+        return $this->lieu;
     }
 
-    public function setLieu(?Lieu $Lieu): self
+    public function setLieu(?Lieu $lieu): self
     {
-        $this->Lieu = $Lieu;
+        $this->lieu = $lieu;
 
         return $this;
     }
 
     public function getCampus(): ?Campus
     {
-        return $this->Campus;
+        return $this->campus;
     }
 
-    public function setCampus(?Campus $Campus): self
+    public function setCampus(?Campus $campus): self
     {
-        $this->Campus = $Campus;
+        $this->campus = $campus;
 
         return $this;
     }

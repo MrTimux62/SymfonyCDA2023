@@ -43,7 +43,7 @@ class Lieu
      * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieus")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Ville;
+    private $ville;
 
     /**
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="Lieu")
@@ -110,12 +110,12 @@ class Lieu
 
     public function getVille(): ?Ville
     {
-        return $this->Ville;
+        return $this->ville;
     }
 
-    public function setVille(?Ville $Ville): self
+    public function setVille(?Ville $ville): self
     {
-        $this->Ville = $Ville;
+        $this->ville = $ville;
 
         return $this;
     }
@@ -128,22 +128,22 @@ class Lieu
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): self
+    public function addSortie(Sortie $sortie): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->setLieu($this);
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
+            $sortie->setLieu($this);
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    public function removeSortie(Sortie $sortie): self
     {
-        if ($this->sorties->removeElement($sorty)) {
+        if ($this->sorties->removeElement($sortie)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getLieu() === $this) {
-                $sorty->setLieu(null);
+            if ($sortie->getLieu() === $this) {
+                $sortie->setLieu(null);
             }
         }
 

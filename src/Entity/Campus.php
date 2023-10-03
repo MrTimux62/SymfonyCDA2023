@@ -25,7 +25,7 @@ class Campus
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="Capmus")
+     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="Campus")
      */
     private $participants;
 
@@ -69,7 +69,7 @@ class Campus
     {
         if (!$this->participants->contains($participant)) {
             $this->participants[] = $participant;
-            $participant->setCapmus($this);
+            $participant->setCampus($this);
         }
 
         return $this;
@@ -79,8 +79,8 @@ class Campus
     {
         if ($this->participants->removeElement($participant)) {
             // set the owning side to null (unless already changed)
-            if ($participant->getCapmus() === $this) {
-                $participant->setCapmus(null);
+            if ($participant->getCampus() === $this) {
+                $participant->setCampus(null);
             }
         }
 
@@ -95,22 +95,22 @@ class Campus
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): self
+    public function addSortie(Sortie $sortie): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->setCampus($this);
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
+            $sortie->setCampus($this);
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    public function removeSortie(Sortie $sortie): self
     {
-        if ($this->sorties->removeElement($sorty)) {
+        if ($this->sorties->removeElement($sortie)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getCampus() === $this) {
-                $sorty->setCampus(null);
+            if ($sortie->getCampus() === $this) {
+                $sortie->setCampus(null);
             }
         }
 

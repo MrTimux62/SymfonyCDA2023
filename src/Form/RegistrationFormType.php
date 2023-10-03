@@ -22,7 +22,7 @@ class RegistrationFormType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('pseudo')
-            ->add('is_acif')
+            ->add('isActif')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

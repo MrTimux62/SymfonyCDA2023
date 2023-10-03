@@ -62,12 +62,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $is_acif;
+    private $isActif;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
      */
-    private $Capmus;
+    private $campus;
 
     /**
      * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="participants")
@@ -222,26 +222,26 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isIsAcif(): ?bool
+    public function isActif(): ?bool
     {
-        return $this->is_acif;
+        return $this->isActif;
     }
 
-    public function setIsAcif(bool $is_acif): self
+    public function setIsActif(bool $isActif): self
     {
-        $this->is_acif = $is_acif;
+        $this->isActif = $isActif;
 
         return $this;
     }
 
-    public function getCapmus(): ?Campus
+    public function getCampus(): ?Campus
     {
-        return $this->Capmus;
+        return $this->campus;
     }
 
-    public function setCapmus(?Campus $Capmus): self
+    public function setCampus(?Campus $campus): self
     {
-        $this->Capmus = $Capmus;
+        $this->campus = $campus;
 
         return $this;
     }
@@ -254,22 +254,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->sortie;
     }
 
-    public function addSortie(Sortie $sortie): self
-    {
-        if (!$this->sortie->contains($sortie)) {
-            $this->sortie[] = $sortie;
-        }
-
-        return $this;
-    }
-
-    public function removeSortie(Sortie $sortie): self
-    {
-        $this->sortie->removeElement($sortie);
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Sortie>
      */
@@ -278,22 +262,22 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): self
+    public function addSortie(Sortie $sortie): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->setParticipant($this);
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
+            $sortie->setParticipant($this);
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    public function removeSortie(Sortie $sortie): self
     {
-        if ($this->sorties->removeElement($sorty)) {
+        if ($this->sorties->removeElement($sortie)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getParticipant() === $this) {
-                $sorty->setParticipant(null);
+            if ($sortie->getParticipant() === $this) {
+                $sortie->setParticipant(null);
             }
         }
 
