@@ -7,7 +7,7 @@
 {% block body %}
 
 	<div class="text-end mb-5 me-5">
-		<h5>Date du jour : 19/07/2018</h5>
+		<h5>Date du jour : {{ 'now'|date('d/m/Y') }}</h5>
 		<h5>Participant : Jeanine L.</h5>
 	</div>
 
@@ -21,10 +21,9 @@
 					<label class="col-sm-4 col-form-label">Campus</label>
 					<div class="col-sm-8">
 						<select class="form-select" aria-label="Default select example">
-							<option selected="">SAINT HERBLAIN</option>
-							<option value="1">One</option>
-							<option value="2">Two</option>
-							<option value="3">Three</option>
+							{% for camp in campus %}
+								<option value="{{ camp.id }}" >{{ camp.nom }}</option>
+							{% endfor %}
 						</select>
 					</div>
 				</div>
@@ -91,85 +90,18 @@
 				</tr>
 				</thead>
 				<tbody>
-				<tr>
-					<th scope="row">Philo</th>
-					<td>19/07/2018 23:45</td>
-					<td>19/07/2018</td>
-					<td>8/8</td>
-					<td>En cours</td>
-					<td>X</td>
-					<td>Spinoz A.</td>
-					<td><a href={{ path('sortie_detail') }}>Afficher</a></td>
-				</tr>
-				<tr>
-					<th scope="row">Philo</th>
-					<td>19/07/2018 23:45</td>
-					<td>19/07/2018</td>
-					<td>8/8</td>
-					<td>En cours</td>
-					<td>X</td>
-					<td>Spinoz A.</td>
-					<td><a href={{ path('sortie_detail') }}>Afficher</a></td>
-				</tr>
-				<tr>
-					<th scope="row">Philo</th>
-					<td>19/07/2018 23:45</td>
-					<td>19/07/2018</td>
-					<td>8/8</td>
-					<td>En cours</td>
-					<td>X</td>
-					<td>Spinoz A.</td>
-					<td><a href={{ path('sortie_detail') }}>Afficher</a></td>
-				</tr>
-				<tr>
-					<th scope="row">Philo</th>
-					<td>19/07/2018 23:45</td>
-					<td>19/07/2018</td>
-					<td>8/8</td>
-					<td>En cours</td>
-					<td>X</td>
-					<td>Spinoz A.</td>
-					<td><a href={{ path('sortie_detail') }}>Afficher</a></td>
-				</tr>
-				<tr>
-					<th scope="row">Philo</th>
-					<td>19/07/2018 23:45</td>
-					<td>19/07/2018</td>
-					<td>8/8</td>
-					<td>En cours</td>
-					<td>X</td>
-					<td>Spinoz A.</td>
-					<td><a href={{ path('sortie_detail') }}>Afficher</a></td>
-				</tr><tr>
-					<th scope="row">Philo</th>
-					<td>19/07/2018 23:45</td>
-					<td>19/07/2018</td>
-					<td>8/8</td>
-					<td>En cours</td>
-					<td>X</td>
-					<td>Spinoz A.</td>
-					<td><a href={{ path('sortie_detail') }}>Afficher</a></td>
-				</tr>
-				<tr>
-					<th scope="row">Philo</th>
-					<td>19/07/2018 23:45</td>
-					<td>19/07/2018</td>
-					<td>8/8</td>
-					<td>En cours</td>
-					<td>X</td>
-					<td>Spinoz A.</td>
-					<td><a href={{ path('sortie_detail') }}>Afficher</a></td>
-				</tr>
-				<tr>
-					<th scope="row">Philo</th>
-					<td>19/07/2018 23:45</td>
-					<td>19/07/2018</td>
-					<td>8/8</td>
-					<td>En cours</td>
-					<td>X</td>
-					<td>Spinoz A.</td>
-					<td><a href={{ path('sortie_detail') }}>Afficher</a></td>
-				</tr>
+				{% for sortie in sorties %}
+					<tr>
+						<th scope="row">{{ sortie.nom }}</th>
+						<td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
+						<td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
+						<td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
+						<td>{{ sortie.Etat.libelle }}</td>
+						<td>X</td>
+						<td>{{ sortie.Participant.prenom }} {{ sortie.Participant.nom }}</td>
+						<td><a href={{ path('sortie_detail', {'sortie_id': sortie.id }) }}>Afficher</a></td>
+					</tr>
+				{% endfor %}
 				</tbody>
 			</table>
 			<!-- End Table with stripped rows -->
