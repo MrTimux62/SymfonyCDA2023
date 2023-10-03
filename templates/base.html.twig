@@ -78,21 +78,21 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href={{ path('sortie_list') }}>
+                <a class="nav-link {% if app.request.attributes.get('_route') != 'sortie_list' %}collapsed{% endif %}" href={{ path('sortie_list') }}>
                     <i class="fs-3 bx bx-list-ul"></i>
                     <span>Voir les sorties</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href={{ path('ville_list') }}>
+                <a class="nav-link {% if app.request.attributes.get('_route') != 'ville_list' %}collapsed{% endif %}" href={{ path('ville_list') }}>
                     <i class="fs-3 bx bxs-city"></i>
                     <span>Gestion des villes</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href={{ path('campus_list') }}>
+                <a class="nav-link {% if app.request.attributes.get('_route') != 'campus_list' %}collapsed{% endif %}" href={{ path('campus_list') }}>
                     <i class="fs-3 bx bx-bus-school"></i>
                     <span>Gérer les campus</span>
                 </a>
