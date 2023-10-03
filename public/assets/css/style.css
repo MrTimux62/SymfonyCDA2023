@@ -1235,7 +1235,7 @@ h6 {
 /*--------------------------------------------------------------
 # Sortie
 --------------------------------------------------------------*/
-.list-group-item.info {
+.list-group-item.info, .list-group-item.info div {
   display: flex;
 }
 
@@ -1247,13 +1247,12 @@ h6 {
 
 .info-value {
   display: block;
-  width: calc(100% - 210px);
 }
 
 .sortie_create_form textarea {
   resize: none;
 }
 
-.sortie_create_form button {
+.sortie_create_form button, .sortie_create_form input {
   margin: 0 5px;
 }

@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <form method="post" action="" class="sortie_create_form">
+    {{ form_start(sortieForm, {'attr': {'class': 'sortie_create_form'}}) }}
         <div class="card">
             <div class="card-header">
                 <h5 class="m-0">Créer une sortie</h5>
@@ -17,68 +17,55 @@
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <li class="list-group-item info">
-                                    <label for="sortie_name" class="info-label">Nom de la sortie :</label>
-                                    <input type="text" maxlength="150" id="sortie_name" class="info-value"></input>
+                                    {{ form_row(sortieForm.nom) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    <label for="sortie_datetime" class="info-label">Date et heure de la sortie :</label>
-                                    <input type="datetime-local" id="sortie_datetime" class="info-value"></input>
+                                    {{ form_row(sortieForm.dateHeureDebut) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    <label for="sortie_registrationdate" class="info-label">Date limite d'inscription : </label>
-                                    <input type="date" id="sortie_registrationdate" class="info-value"></input>
+                                    {{ form_row(sortieForm.dateLimiteInscription) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    <label for="sortie_placesquantity" class="info-label">Nombre de places : </label>
-                                    <input type="number" step="1" id="sortie_placesquantity" class="info-value"></input>
+                                    {{ form_row(sortieForm.nbInscriptionsMax) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    <label for="sortie_duration" class="info-label">Durée : </label>
-                                    <div class="info-value">
-                                        <input type="time" step="1" id="sortie_duration" ></input><span> minutes</span>
-                                    </div>
+                                    {{ form_row(sortieForm.duree) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    <label for="sortie_description" class="info-label">Description et infos : </label>
-                                    <textarea rows="5" id="sortie_description" class="info-value"></textarea>
+                                    {{ form_row(sortieForm.infosSortie) }}
                                 </li>
                             </ul>
                         </div>
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <li class="list-group-item info">
-                                    <label for="sortie_campus" class="info-label">Campus : </label>
-                                    <select id="sortie_campus" class="info-value">
-                                        <option>SAINT HERBLAIN</option>
-                                    </select>
+                                    {{ form_row(sortieForm.campus) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    <label for="sortie_city" class="info-label">Ville : </label>
-                                    <select id="sortie_city" class="info-value">
-                                        <option>Ville exemple</option>
-                                    </select>
+                                    {{ form_row(sortieForm.ville) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    <label for="sortie_spot" class="info-label">Lieu : </label>
-                                    <select id="sortie_spot" class="info-value">
-                                        <option>Lieu exemple</option>
-                                    </select>
+                                    {{ form_row(sortieForm.lieu) }}
+                                    <button type="button" class="btn btn-primary">
+                                        <!-- TODO -->
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </li>
                                 <li class="list-group-item info">
                                     <span class="info-label">Rue : </span>
-                                    <span class="info-value">Rue de l'exemple</span>
+                                    <span class="info-value" id="sortie_form_rue"></span>
                                 </li>
                                 <li class="list-group-item info">
                                     <span class="info-label">Code postal : </span>
-                                    <span class="info-value">12345</span>
+                                    <span class="info-value" id="sortie_form_codePostal"></span>
                                 </li>
                                 <li class="list-group-item info">
                                     <span class="info-label">Latitude : </span>
-                                    <span class="info-value">45.6789</span>
+                                    <span class="info-value" id="sortie_form_latitude"></span>
                                 </li>
                                 <li class="list-group-item info">
                                     <span class="info-label">Longitude : </span>
-                                    <span class="info-value">-123.4567</span>
+                                    <span class="info-value" id="sortie_form_longitude"></span>
                                 </li>
                             </ul>
                         </div>
@@ -89,8 +76,73 @@
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-outline-success">Enregistrer</button>
             <button class="btn btn-outline-success">Publier la sortie</button>
-            <input type="button" class="btn btn-outline-danger" onclick="location.href='{{ path('main_home') }}';" value="Annuler"></input>
+            <input type="button" class="btn btn-outline-danger" onclick="location.href='{{ path('sortie_list') }}';" value="Annuler"></input>
         </div>
-    </form>
+    {{ form_end(sortieForm) }}
+
+    <script>
+        $(document).ready(function () {
+            getLieuList();
+            getCodePostal();
+            getRueLatitudeLongitude();
+            $('#sortie_form_ville').on('change', function () {
+                getLieuList();
+                getCodePostal();
+                getRueLatitudeLongitude();
+            });
+            $('#sortie_form_lieu').on('change', function () {
+                getRueLatitudeLongitude();
+            });
+        });
+
+        var getLieuList = function () {
+            var villeField = $('#sortie_form_ville');
+            var lieuField = $('#sortie_form_lieu');
+            var villeId = villeField.val();
+            $.ajax({
+                url: '{{ path('get_lieu_list_by_ville') }}',
+                type: 'GET',
+                data: { ville_id: villeId },
+                success: function (data) {
+                    lieuField.empty();
+                    $.each(data, function (key, lieu) {
+                        lieuField.append('<option value="' + lieu.id + '">' + lieu.nom + '</option>');
+                    });
+                }
+            });
+        };
+
+        var getCodePostal = function () {
+            var villeField = $('#sortie_form_ville');
+            var codePostalField = $('#sortie_form_codePostal');
+            var villeId = villeField.val();
+            $.ajax({
+                url: '{{ path('get_code_postal') }}',
+                type: 'GET',
+                data: { ville_id: villeId },
+                success: function (data) {
+                    codePostalField.text(data);
+                }
+            });
+        };
+
+        var getRueLatitudeLongitude = function () {
+            var lieuField = $('#sortie_form_lieu');
+            var rueField = $('#sortie_form_rue');
+            var latitudeField = $('#sortie_form_latitude');
+            var longitudeField = $('#sortie_form_longitude');
+            var lieuId = lieuField.val();
+            $.ajax({
+                url: '{{ path('get_rue_latitude_longitude') }}',
+                type: 'GET',
+                data: { lieu_id: lieuId },
+                success: function (data) {
+                    rueField.text(data.rue);
+                    latitudeField.text(data.latitude);
+                    longitudeField.text(data.longitude);
+                }
+            });
+        };
+    </script>
 
 {% endblock %}
