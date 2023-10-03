@@ -76,11 +76,11 @@ class Ville
         return $this->lieux;
     }
 
-    public function addLieu(Lieu $lieux): self
+    public function addLieu(Lieu $lieu): self
     {
-        if (!$this->lieux->contains($lieux)) {
-            $this->lieux[] = $lieux;
-            $lieux->setVille($this);
+        if (!$this->lieux->contains($lieu)) {
+            $this->lieux[] = $lieu;
+            $lieu->setVille($this);
         }
 
         return $this;
