@@ -2,19 +2,37 @@
 
 namespace App\Controller;
 
+use App\Repository\CampusRepository;
+use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SortieController extends AbstractController
 {
     /**
+     * @Route("/", name="sortie_list")
+     */
+    public function list(SortieRepository $sortieRepository, CampusRepository $campusRepository): Response
+    {
+        $sorties = $sortieRepository->findAll();
+        $campus = $campusRepository->findAll();
+
+        return $this->render('sortie/list.html.twig', [
+            'sorties' => $sorties,
+            'campus' => $campus
+        ]);
+    }
+    /**
      * @Route("/sortie/detail", name="sortie_detail")
      */
-    public function detail(): Response
+    public function detail(SortieRepository $sortieRepository, Request $request): Response
     {
+        $sortie =  $sortieRepository->find($request->query->get('sortie_id'));
+
         return $this->render('sortie/detail.html.twig', [
-            'controller_name' => 'SortieController',
+            'sortie' => $sortie,
         ]);
     }
 

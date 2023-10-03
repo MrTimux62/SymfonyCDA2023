@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sorties |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+	<div class="card">
+		<div class="card-header">
+			<h5 class="m-0">Filtrer les villes</h5>
+		</div>
+		<div class="card-body row">
+			<div class="col-md-6">
+				<div class="row mb-12">
+					<label for="inputText" class="col-sm-4 col-form-label">Le nom de la ville contient :</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 align-self-center">
+				<button class="btn btn-lg btn-outline-primary">Rechercher</button>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card">
+
+		<div class="card-body">
+
+			<!-- Table with stripped rows -->
+			<table class="table table-striped datatable" id="city_table">
+				<thead>
+				<tr>
+					<th scope="col">Ville</th>
+					<th scope="col">Code Postal</th>
+					<th scope="col">Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for ville in villes %}
+					<tr>
+						<th scope="row">{{ ville.nom }}</th>
+						<td>{{ ville.codePostal }}</td>
+						<td><a class="me-3" href="">Modifier</a><a href="">Supprimer</a></td>
+					</tr>
+				{% endfor %}
+					<tr>
+						<th scope="row"><input id="city_name" type="text" class="form-control"></th>
+						<td><input id="city_postalCode" type="number" class="form-control"></td>
+						<td><button onclick="addCity()" class="btn btn-outline-success">Ajouter</button></td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- End Table with stripped rows -->
+
+		</div>
+
+	</div>
+
+{% endblock %}
+
+{% block custom_js %}
+	<script type="text/javascript">
+
+		let options = {
+			searchable: false,
+			perPage: 20,
+			locale: 'fr-FR'
+		};
+
+		let dataTable = new simpleDatatables.DataTable(document.querySelector('#city_table'), options);
+
+		function addCity() {
+			$.ajax({
+				url: "{{ path('ville_create') }}",
+				method: 'GET',
+				data: { city_name: $("#city_name").val(), city_postalCode: $("#city_postalCode").val() },
+				success: function(data) {
+					if (data.success){
+						// remove add
+						dataTable.rows.remove($(".datatable tr").length - 2);
+
+						// add new city
+						let newRow = [data.city.nom, data.city.codePostal, '<a class="me-3" href="">Modifier</a><a href="">Supprimer</a>'];
+						dataTable.rows.add(newRow);
+
+						// insert add
+						newRow = ['<input id="city_name" type="text" class="form-control">', '<input id="city_postalCode" type="number" class="form-control">', '<button onclick="addCity()" class="btn btn-outline-success">Ajouter</button>'];
+						dataTable.rows.add(newRow);
+					}
+				}
+
+			})
+		}
+
+	</script>
+{% endblock %}

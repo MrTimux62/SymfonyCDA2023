@@ -17,27 +17,27 @@
                         <ul class="list-group">
                             <li class="list-group-item info">
                                 <span class="info-label">Nom de la sortie :</span>
-                                <span class="info-value">Philo</span>
+                                <span class="info-value">{{ sortie.nom }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Date et heure de la sortie :</span>
-                                <span class="info-value">19/07/2018 23:45</span>
+                                <span class="info-value">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Date limite d'inscription : </span>
-                                <span class="info-value">19/07/2018</span>
+                                <span class="info-value">{{ sortie.dateLimiteInscription|date('d/m/Y') }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Nombre de places : </span>
-                                <span class="info-value">8</span>
+                                <span class="info-value">{{ sortie.nbInscriptionsMax }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Durée : </span>
-                                <span class="info-value">90 minutes</span>
+                                <span class="info-value">{{ sortie.duree|date('H:i') }} heures</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Description et infos : </span>
-                                <span class="info-value">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+                                <span class="info-value">{{ sortie.infosSortie }}</span>
                             </li>
                         </ul>
                     </div>
@@ -45,31 +45,31 @@
                         <ul class="list-group">
                             <li class="list-group-item info">
                                 <span class="info-label">Campus : </span>
-                                <span class="info-value">SAINT HERBLAIN</span>
+                                <span class="info-value">{{ sortie.Campus.nom }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Ville : </span>
-                                <span class="info-value">Ville exemple</span>
+                                <span class="info-value">{{ sortie.Lieu.Ville.nom }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Lieu : </span>
-                                <span class="info-value">Lieu exemple</span>
+                                <span class="info-value">{{ sortie.Lieu.nom }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Rue : </span>
-                                <span class="info-value">Rue de l'exemple</span>
+                                <span class="info-value">{{ sortie.Lieu.rue }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Code postal : </span>
-                                <span class="info-value">12345</span>
+                                <span class="info-value">{{ sortie.Lieu.Ville.codePostal }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Latitude : </span>
-                                <span class="info-value">45.6789</span>
+                                <span class="info-value">{{ sortie.Lieu.latitude }}</span>
                             </li>
                             <li class="list-group-item info">
                                 <span class="info-label">Longitude : </span>
-                                <span class="info-value">-123.4567</span>
+                                <span class="info-value">{{ sortie.Lieu.longitude }}</span>
                             </li>
                         </ul>
                     </div>
@@ -85,18 +85,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>JBL</td>
-                                <td>Jean-Baptiste LAMARCK</td>
-                            </tr>
-                            <tr>
-                                <td>YC44</td>
-                                <td>Yves COUSTEAU</td>
-                            </tr>
-                            <tr>
-                                <td>MC</td>
-                                <td>Michel CONSTANT</td>
-                            </tr>
+                            {% for participant in sortie.participants %}
+                                <tr>
+                                    <td>{{ participant.pseudo }}</td>
+                                    <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
