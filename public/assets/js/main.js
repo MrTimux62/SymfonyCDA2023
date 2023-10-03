@@ -300,7 +300,7 @@
   /**
    * Initiate Datatables
    */
-  let options = {
+  /*let options = {
     searchable: false,
     perPage: 10,
     locale: 'fr-FR'
@@ -308,7 +308,7 @@
   const datatables = select('.datatable', true)
   datatables.forEach(datatable => {
     new simpleDatatables.DataTable(datatable, options);
-  })
+  })*/
 
   /**
    * Autoresize echart charts

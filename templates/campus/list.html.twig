@@ -32,7 +32,7 @@
 		<div class="card-body">
 
 			<!-- Table with stripped rows -->
-			<table class="table table-striped datatable">
+			<table class="table table-striped datatable" id="campus_table">
 				<thead>
 				<tr>
 					<th scope="col">Campus</th>
@@ -43,12 +43,12 @@
 				{% for camp in campus %}
 					<tr>
 						<th scope="row">{{ camp.nom }}</th>
-						<td><a class="me-3" href="">Modifier</a><a href="">Supprimer</a></td>
+						<td><a class="me-3" href="">Modifier</a><a href="javascript:void(0)">Supprimer</a></td>
 					</tr>
 				{% endfor %}
 					<tr>
 						<th scope="row"><input id="campus_name" type="text" class="form-control"></th>
-						<td><button id="add_campus" class="btn btn-outline-success">Ajouter</button></td>
+						<td><button onclick="addCampus()" class="btn btn-outline-success">Ajouter</button></td>
 					</tr>
 				</tbody>
 			</table>
@@ -58,4 +58,41 @@
 
 	</div>
 
+{% endblock %}
+
+{% block custom_js %}
+	<script type="text/javascript">
+
+		let options = {
+			searchable: false,
+			perPage: 20,
+			locale: 'fr-FR'
+		};
+
+		let dataTable = new simpleDatatables.DataTable(document.querySelector('#campus_table'), options);
+
+		function addCampus() {
+			$.ajax({
+				url: "{{ path('campus_create') }}",
+				method: 'GET',
+				data: { campus_name: $("#campus_name").val() },
+				success: function(data) {
+					if (data.success){
+						// remove add
+						dataTable.rows.remove($(".datatable tr").length - 2);
+
+						// add new city
+						let newRow = [data.campus.nom, '<a class="me-3" href="">Modifier</a><a href="javascript:void(0)">Supprimer</a>'];
+						dataTable.rows.add(newRow);
+
+						// insert add
+						newRow = ['<input id="campus_name" type="text" class="form-control">', '<button onclick="addCampus()" class="btn btn-outline-success">Ajouter</button>'];
+						dataTable.rows.add(newRow);
+					}
+				}
+
+			})
+		}
+
+	</script>
 {% endblock %}
