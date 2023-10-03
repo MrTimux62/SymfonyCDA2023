@@ -8,7 +8,7 @@
 
 	<div class="text-end mb-5 me-5">
 		<h5>Date du jour : {{ 'now'|date('d/m/Y') }}</h5>
-		<h5>Participant : Jeanine L.</h5>
+		<h5>Participant : {{ app.user.prenom }} {{ app.user.nom }}</h5>
 	</div>
 
 	<div class="card">
