@@ -32,7 +32,7 @@
 		<div class="card-body">
 
 			<!-- Table with stripped rows -->
-			<table class="table table-striped datatable">
+			<table class="table table-striped datatable" id="city_table">
 				<thead>
 				<tr>
 					<th scope="col">Ville</th>
@@ -51,7 +51,7 @@
 					<tr>
 						<th scope="row"><input id="city_name" type="text" class="form-control"></th>
 						<td><input id="city_postalCode" type="number" class="form-control"></td>
-						<td><button id="add_city" class="btn btn-outline-success">Ajouter</button></td>
+						<td><button onclick="addCity()" class="btn btn-outline-success">Ajouter</button></td>
 					</tr>
 				</tbody>
 			</table>
@@ -61,4 +61,41 @@
 
 	</div>
 
+{% endblock %}
+
+{% block custom_js %}
+	<script type="text/javascript">
+
+		let options = {
+			searchable: false,
+			perPage: 20,
+			locale: 'fr-FR'
+		};
+
+		let dataTable = new simpleDatatables.DataTable(document.querySelector('#city_table'), options);
+
+		function addCity() {
+			$.ajax({
+				url: "{{ path('ville_create') }}",
+				method: 'GET',
+				data: { city_name: $("#city_name").val(), city_postalCode: $("#city_postalCode").val() },
+				success: function(data) {
+					if (data.success){
+						// remove add
+						dataTable.rows.remove($(".datatable tr").length - 2);
+
+						// add new city
+						let newRow = [data.city.nom, data.city.codePostal, '<a class="me-3" href="">Modifier</a><a href="">Supprimer</a>'];
+						dataTable.rows.add(newRow);
+
+						// insert add
+						newRow = ['<input id="city_name" type="text" class="form-control">', '<input id="city_postalCode" type="number" class="form-control">', '<button onclick="addCity()" class="btn btn-outline-success">Ajouter</button>'];
+						dataTable.rows.add(newRow);
+					}
+				}
+
+			})
+		}
+
+	</script>
 {% endblock %}
