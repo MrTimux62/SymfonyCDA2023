@@ -43,7 +43,7 @@
 				{% for camp in campus %}
 					<tr>
 						<th scope="row">{{ camp.nom }}</th>
-						<td><a class="me-3" href="">Modifier</a><a href="javascript:void(0)">Supprimer</a></td>
+						<td><a class="me-3" href="javascript:void(0)" onclick="editCampus({{ loop.index - 1 }}, {{ camp.id }})">Modifier</a><a href="javascript:void(0)">Supprimer</a></td>
 					</tr>
 				{% endfor %}
 					<tr>
@@ -81,13 +81,51 @@
 						// remove add
 						dataTable.rows.remove($(".datatable tr").length - 2);
 
-						// add new city
-						let newRow = [data.campus.nom, '<a class="me-3" href="">Modifier</a><a href="javascript:void(0)">Supprimer</a>'];
+						// add new campus
+						let newRow = [data.campus.nom, '<a class="me-3" href="javascript:void(0)" onclick="editCampus('+($(".datatable tr").length - 1)+', '+data.campus.id+')">Modifier</a><a href="javascript:void(0)">Supprimer</a>'];
 						dataTable.rows.add(newRow);
 
 						// insert add
 						newRow = ['<input id="campus_name" type="text" class="form-control">', '<button onclick="addCampus()" class="btn btn-outline-success">Ajouter</button>'];
 						dataTable.rows.add(newRow);
+					}
+				}
+
+			})
+		}
+
+		function editCampus(index, campus_id) {
+
+			// Line
+			let tr = $(".datatable tbody tr")[index];
+			// First Td
+			let td_1 = $(tr).find('td')[0];
+			let td_2 = $(tr).find('td')[1];
+			// Add input
+			$(td_1).html('<input class="form-control" type="text" value="'+$(td_1).html()+'" id="edit_campus_'+campus_id+'">');
+
+			$(td_2).html('<button onclick="editCampusProcess('+index+','+campus_id+')" class="btn btn-outline-success">Enregistrer</button>')
+
+		}
+
+		function editCampusProcess(index, campus_id) {
+
+			// Line
+			let tr = $(".datatable tbody tr")[index];
+			// First Td
+			let td_1 = $(tr).find('td')[0];
+			let td_2 = $(tr).find('td')[1];
+
+			$.ajax({
+				url: "{{ path('campus_edit') }}",
+				method: 'GET',
+				data: { campus_id: campus_id, campus_name: $("#edit_campus_"+campus_id).val() },
+				success: function(data) {
+					if (data.success){
+
+						$(td_1).html(data.campus_name);
+						$(td_2).html('<a class="me-3" href="javascript:void(0)" onclick="editCampus('+index+', '+campus_id+')">Modifier</a><a href="javascript:void(0)">Supprimer</a>');
+
 					}
 				}
 
