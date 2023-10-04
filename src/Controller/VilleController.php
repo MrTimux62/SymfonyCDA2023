@@ -60,6 +60,24 @@ class VilleController extends AbstractController
     }
 
     /**
+     * @Route("/ville/edit", name="ville_edit")
+     */
+    public function edit(Request $request, VilleRepository $villeRepository, EntityManagerInterface $entityManager): Response
+    {
+        $ville = $villeRepository->find($request->query->get('city_id'));
+        $ville->setNom($request->query->get('city_name'))->setCodePostal($request->query->get('city_postalCode'));
+
+        $entityManager->persist($ville);
+        $entityManager->flush();
+
+        return $this->json([
+            'success' => true,
+            'city_name' => $ville->getNom(),
+            'city_postalCode' => $ville->getCodePostal(),
+        ]);
+    }
+
+    /**
      * @Route("/ville/remove/{id}", name="ville_remove")
      */
     public function remove($id, EntityManagerInterface $entityManager): Response
