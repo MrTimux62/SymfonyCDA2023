@@ -25,12 +25,12 @@ class Campus
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="Campus")
+     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus")
      */
     private $participants;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="Campus", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="campus", orphanRemoval=true)
      */
     private $sorties;
 
@@ -68,8 +68,10 @@ class Campus
     public function addParticipant(Participant $participant): self
     {
         if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
-            $participant->setCampus($this);
+            $this->participants->add($participant);
+            if ($participant->getCampus() !== $this) {
+                $participant->setCampus($this);
+            }
         }
 
         return $this;
@@ -98,8 +100,10 @@ class Campus
     public function addSortie(Sortie $sortie): self
     {
         if (!$this->sorties->contains($sortie)) {
-            $this->sorties[] = $sortie;
-            $sortie->setCampus($this);
+            $this->sorties->add($sortie);
+            if ($sortie->getCampus() !== $this) {
+                $sortie->setCampus($this);
+            }
         }
 
         return $this;

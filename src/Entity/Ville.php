@@ -30,7 +30,7 @@ class Ville
     private $codePostal;
 
     /**
-     * @ORM\OneToMany(targetEntity=Lieu::class, mappedBy="Ville", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Lieu::class, mappedBy="ville", orphanRemoval=true)
      */
     private $lieux;
 
@@ -79,8 +79,10 @@ class Ville
     public function addLieu(Lieu $lieu): self
     {
         if (!$this->lieux->contains($lieu)) {
-            $this->lieux[] = $lieu;
-            $lieu->setVille($this);
+            $this->lieux->add($lieu);
+            if ($lieu->getVille() !== $this) {
+                $lieu->setVille($this);
+            }
         }
 
         return $this;

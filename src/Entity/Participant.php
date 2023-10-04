@@ -62,7 +62,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActif;
+    private $actif;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
@@ -72,17 +72,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="participants")
      */
-    private $sortie;
+    private $sortiesParticipees;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="Participant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="participant", orphanRemoval=true)
      */
-    private $sorties;
+    private $sortiesOrganisees;
 
     public function __construct()
     {
-        $this->sortie = new ArrayCollection();
-        $this->sorties = new ArrayCollection();
+        $this->sortiesParticipees = new ArrayCollection();
+        $this->sortiesOrganisees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,12 +224,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isActif(): ?bool
     {
-        return $this->isActif;
+        return $this->actif;
     }
 
     public function setIsActif(bool $isActif): self
     {
-        $this->isActif = $isActif;
+        $this->actif = $isActif;
 
         return $this;
     }
@@ -241,43 +241,73 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setCampus(?Campus $campus): self
     {
-        $this->campus = $campus;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getSortie(): Collection
-    {
-        return $this->sortie;
-    }
-
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getSorties(): Collection
-    {
-        return $this->sorties;
-    }
-
-    public function addSortie(Sortie $sortie): self
-    {
-        if (!$this->sorties->contains($sortie)) {
-            $this->sorties[] = $sortie;
-            $sortie->setParticipant($this);
+        if ($this->campus !== $campus) {
+            if ($campus !== null) {
+                $this->campus = $campus;
+                $campus->addParticipant($this);
+            } else {
+                $campusWhereRemoveParticipant = $this->campus;
+                $this->campus = $campus;
+                $campusWhereRemoveParticipant->removeParticipant($this);
+            }
         }
 
         return $this;
     }
 
-    public function removeSortie(Sortie $sortie): self
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getSortiesParticipees(): Collection
     {
-        if ($this->sorties->removeElement($sortie)) {
+        return $this->sortiesParticipees;
+    }
+
+    public function addSortieParticipee(Sortie $sortie): self
+    {
+        if (!$this->sortiesParticipees->contains($sortie)) {
+            $this->sortiesParticipees->add($sortie);
+            $sortie->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSortieParticipee(Sortie $sortie): self
+    {
+        if ($this->sortiesParticipees->removeElement($sortie)) {
+            $sortie->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getSortiesOrganisees(): Collection
+    {
+        return $this->sortiesOrganisees;
+    }
+
+    public function addSortieOrganisee(Sortie $sortie): self
+    {
+        if (!$this->sortiesOrganisees->contains($sortie)) {
+            $this->sortiesOrganisees->add($sortie);
+            if ($sortie->getParticipantOrganisateur() !== $this) {
+                $sortie->setParticipantOrganisateur($this);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeSortieOrganisee(Sortie $sortie): self
+    {
+        if ($this->sortiesOrganisees->removeElement($sortie)) {
             // set the owning side to null (unless already changed)
-            if ($sortie->getParticipant() === $this) {
-                $sortie->setParticipant(null);
+            if ($sortie->getParticipantOrganisateur() === $this) {
+                $sortie->setParticipantOrganisateur(null);
             }
         }
 

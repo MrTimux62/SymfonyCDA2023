@@ -50,15 +50,15 @@ class Sortie
     private $infosSortie;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="sortie")
+     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="sortiesParticipees")
      */
     private $participants;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sorties")
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sortiesOrganisees")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $participant;
+    private $participantOrganisateur;
 
     /**
      * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
@@ -171,8 +171,8 @@ class Sortie
     public function addParticipant(Participant $participant): self
     {
         if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
-            $participant->addSortie($this);
+            $this->participants->add($participant);
+            $participant->addSortieParticipee($this);
         }
 
         return $this;
@@ -181,20 +181,29 @@ class Sortie
     public function removeParticipant(Participant $participant): self
     {
         if ($this->participants->removeElement($participant)) {
-            $participant->removeSortie($this);
+            $participant->removeSortieParticipee($this);
         }
 
         return $this;
     }
 
-    public function getParticipant(): ?Participant
+    public function getParticipantOrganisateur(): ?Participant
     {
-        return $this->participant;
+        return $this->participantOrganisateur;
     }
 
-    public function setParticipant(?Participant $participant): self
+    public function setParticipantOrganisateur(?Participant $participant): self
     {
-        $this->participant = $participant;
+        if ($this->participantOrganisateur !== $participant) {
+            if ($participant !== null) {
+                $this->participantOrganisateur = $participant;
+                $participant->addSortieOrganisee($this);
+            } else {
+                $participantWhereRemoveSortieOrganisee = $this->participantOrganisateur;
+                $this->participantOrganisateur = $participant;
+                $participantWhereRemoveSortieOrganisee->removeSortieOrganisee($this);
+            }
+        }
 
         return $this;
     }
@@ -206,7 +215,16 @@ class Sortie
 
     public function setEtat(?Etat $etat): self
     {
-        $this->etat = $etat;
+        if ($this->etat !== $etat) {
+            if ($etat !== null) {
+                $this->etat = $etat;
+                $etat->addSortie($this);
+            } else {
+                $etatWhereRemoveSortie = $this->etat;
+                $this->etat = $etat;
+                $etatWhereRemoveSortie->removeSortie($this);
+            }
+        }
 
         return $this;
     }
@@ -218,7 +236,16 @@ class Sortie
 
     public function setLieu(?Lieu $lieu): self
     {
-        $this->lieu = $lieu;
+        if ($this->lieu !== $lieu) {
+            if ($lieu !== null) {
+                $this->lieu = $lieu;
+                $lieu->addSortie($this);
+            } else {
+                $lieuWhereRemoveSortie = $this->lieu;
+                $this->lieu = $lieu;
+                $lieuWhereRemoveSortie->removeSortie($this);
+            }
+        }
 
         return $this;
     }
@@ -230,8 +257,16 @@ class Sortie
 
     public function setCampus(?Campus $campus): self
     {
-        $this->campus = $campus;
-
+        if ($this->campus !== $campus) {
+            if ($campus !== null) {
+                $this->campus = $campus;
+                $campus->addSortie($this);
+            } else {
+                $campusWhereRemoveSortie = $this->campus;
+                $this->campus = $campus;
+                $campusWhereRemoveSortie->removeSortie($this);
+            }
+        }
         return $this;
     }
 }

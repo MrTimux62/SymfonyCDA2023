@@ -25,7 +25,7 @@ class Etat
     private $libelle;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="Etat")
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="etat")
      */
     private $sorties;
 
@@ -62,8 +62,10 @@ class Etat
     public function addSortie(Sortie $sortie): self
     {
         if (!$this->sorties->contains($sortie)) {
-            $this->sorties[] = $sortie;
-            $sortie->setEtat($this);
+            $this->sorties->add($sortie);
+            if ($sortie->getEtat() !== $this) {
+                $sortie->setEtat($this);
+            }
         }
 
         return $this;
