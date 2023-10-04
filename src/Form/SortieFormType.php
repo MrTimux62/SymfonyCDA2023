@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -65,7 +66,9 @@ class SortieFormType extends AbstractType
                     ]),
                 ]
             ])
-            ->add('duree', IntegerType::class, [
+            ->add('duree', TimeType::class, [
+                // TimeType alors qu'il faudrait un IntegerType selon la maquette :
+                // IntegerType pose souci à la soumission du formulaire (le champ est de type time dans la DB)
                 'label' => 'Durée :',
                 'label_attr' => ['class' => 'info-label'],
                 'attr' => [
@@ -73,6 +76,7 @@ class SortieFormType extends AbstractType
                     'min' => 0
                 ],
                 'help' => 'minutes',
+                'widget' => 'single_text',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez renseigner une durée.'
