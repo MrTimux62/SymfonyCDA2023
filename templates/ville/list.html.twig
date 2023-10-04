@@ -45,7 +45,7 @@
 					<tr>
 						<th scope="row">{{ ville.nom }}</th>
 						<td>{{ ville.codePostal }}</td>
-						<td><a class="me-3" href="javascript:void(0)" onclick="editCity({{ loop.index - 1 }}, {{ ville.id }})">Modifier</a><a href="">Supprimer</a></td>
+						<td><a class="me-3" href="javascript:void(0)" onclick="editCity({{ loop.index - 1 }}, {{ ville.id }})">Modifier</a><a href="javascript:void(0)" onclick="removeCity({{ loop.index - 1 }}, {{ ville.id }})">Supprimer</a></td>
 					</tr>
 				{% endfor %}
 					<tr>
@@ -85,7 +85,7 @@
 						dataTable.rows.remove($(".datatable tr").length - 2);
 
 						// add new city
-						let newRow = [data.city.nom, data.city.codePostal, '<a class="me-3" href="javascript:void(0)" onclick="editCity('+($(".datatable tr").length - 1)+', '+data.city.id+')">Modifier</a><a href="javascript:void(0)">Supprimer</a>'];
+						let newRow = [data.city.nom, data.city.codePostal, '<a class="me-3" href="javascript:void(0)" onclick="editCity('+($(".datatable tr").length - 1)+', '+data.city.id+')">Modifier</a><a href="javascript:void(0)" onclick="removeCity('+($(".datatable tr").length - 1)+','+data.city.id+')">Supprimer</a>'];
 						dataTable.rows.add(newRow);
 
 						// insert add
@@ -136,6 +136,26 @@
 				}
 
 			})
+		}
+
+		function removeCity(index, city_id) {
+
+			if (confirm('Supprimer la ville ?')) {
+				$.ajax({
+					url: "{{ path('ville_remove') }}",
+					method: 'GET',
+					data: { city_id: city_id },
+					success: function(data) {
+						if (data.success){
+
+							dataTable.rows.remove(index);
+
+						}
+					}
+
+				})
+			}
+
 		}
 
 	</script>
