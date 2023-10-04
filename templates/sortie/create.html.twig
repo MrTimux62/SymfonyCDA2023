@@ -82,67 +82,73 @@
 
     <script>
         $(document).ready(function () {
-            getLieuList();
-            getCodePostal();
-            getRueLatitudeLongitude();
+            var getLieuList = function () {
+                var villeField = $('#sortie_form_ville');
+                var lieuField = $('#sortie_form_lieu');
+                var villeId = villeField.val();
+                var deferred = $.Deferred();
+                $.ajax({
+                    url: '{{ path('get_lieu_list_by_ville') }}',
+                    type: 'GET',
+                    data: { ville_id: villeId },
+                    success: function (data) {
+                        lieuField.empty();
+                        $.each(data, function (key, lieu) {
+                            lieuField.append('<option value="' + lieu.id + '">' + lieu.nom + '</option>');
+                        });
+                        deferred.resolve();
+                    },
+                    error: function () {
+                        deferred.reject();
+                    }
+                });
+                return deferred.promise();
+            };
+
+            var getCodePostal = function () {
+                var villeField = $('#sortie_form_ville');
+                var codePostalField = $('#sortie_form_codePostal');
+                var villeId = villeField.val();
+                $.ajax({
+                    url: '{{ path('get_code_postal') }}',
+                    type: 'GET',
+                    data: { ville_id: villeId },
+                    success: function (data) {
+                        codePostalField.text(data);
+                    }
+                });
+            };
+
+            var getRueLatitudeLongitude = function () {
+                var lieuField = $('#sortie_form_lieu');
+                var rueField = $('#sortie_form_rue');
+                var latitudeField = $('#sortie_form_latitude');
+                var longitudeField = $('#sortie_form_longitude');
+                var lieuId = lieuField.val();
+                $.ajax({
+                    url: '{{ path('get_rue_latitude_longitude') }}',
+                    type: 'GET',
+                    data: { lieu_id: lieuId },
+                    success: function (data) {
+                        rueField.text(data.rue);
+                        latitudeField.text(data.latitude);
+                        longitudeField.text(data.longitude);
+                    }
+                });
+            };
+
+            var updateInfo = function () {
+                getLieuList().then(getCodePostal).then(getRueLatitudeLongitude);
+            }
+
+            updateInfo();
             $('#sortie_form_ville').on('change', function () {
-                getLieuList();
-                getCodePostal();
-                getRueLatitudeLongitude();
+                updateInfo();
             });
             $('#sortie_form_lieu').on('change', function () {
                 getRueLatitudeLongitude();
             });
         });
-
-        var getLieuList = function () {
-            var villeField = $('#sortie_form_ville');
-            var lieuField = $('#sortie_form_lieu');
-            var villeId = villeField.val();
-            $.ajax({
-                url: '{{ path('get_lieu_list_by_ville') }}',
-                type: 'GET',
-                data: { ville_id: villeId },
-                success: function (data) {
-                    lieuField.empty();
-                    $.each(data, function (key, lieu) {
-                        lieuField.append('<option value="' + lieu.id + '">' + lieu.nom + '</option>');
-                    });
-                }
-            });
-        };
-
-        var getCodePostal = function () {
-            var villeField = $('#sortie_form_ville');
-            var codePostalField = $('#sortie_form_codePostal');
-            var villeId = villeField.val();
-            $.ajax({
-                url: '{{ path('get_code_postal') }}',
-                type: 'GET',
-                data: { ville_id: villeId },
-                success: function (data) {
-                    codePostalField.text(data);
-                }
-            });
-        };
-
-        var getRueLatitudeLongitude = function () {
-            var lieuField = $('#sortie_form_lieu');
-            var rueField = $('#sortie_form_rue');
-            var latitudeField = $('#sortie_form_latitude');
-            var longitudeField = $('#sortie_form_longitude');
-            var lieuId = lieuField.val();
-            $.ajax({
-                url: '{{ path('get_rue_latitude_longitude') }}',
-                type: 'GET',
-                data: { lieu_id: lieuId },
-                success: function (data) {
-                    rueField.text(data.rue);
-                    latitudeField.text(data.latitude);
-                    longitudeField.text(data.longitude);
-                }
-            });
-        };
     </script>
 
 {% endblock %}
