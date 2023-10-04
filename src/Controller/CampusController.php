@@ -42,6 +42,23 @@ class CampusController extends AbstractController
     }
 
     /**
+     * @Route("/campus/edit", name="campus_edit")
+     */
+    public function edit(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager): Response
+    {
+        $campus = $campusRepository->find($request->query->get('campus_id'));
+        $campus->setNom($request->query->get('campus_name'));
+
+        $entityManager->persist($campus);
+        $entityManager->flush();
+
+        return $this->json([
+            'success' => true,
+            'campus_name' => $campus->getNom()
+        ]);
+    }
+
+    /**
      * @Route("/campus/remove", name="campus_remove")
      */
     public function remove(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager): Response // WIP

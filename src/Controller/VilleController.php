@@ -58,4 +58,17 @@ class VilleController extends AbstractController
             'city' => $ville
         ]);
     }
+
+    /**
+     * @Route("/ville/remove/{id}", name="ville_remove")
+     */
+    public function remove($id, EntityManagerInterface $entityManager): Response
+    {
+        $ville = $this->villeRepository->find($id);
+
+        $entityManager->remove($ville);
+        $entityManager->flush();
+
+        return $this->list();
+    }
 }
