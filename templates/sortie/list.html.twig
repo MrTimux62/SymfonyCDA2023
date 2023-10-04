@@ -98,7 +98,7 @@
 						<td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
 						<td>{{ sortie.Etat.libelle }}</td>
 						<td>X</td>
-						<td>{{ sortie.Participant.prenom }} {{ sortie.Participant.nom }}</td>
+						<td>{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</td>
 						<td><a href={{ path('sortie_detail', {'sortie_id': sortie.id }) }}>Afficher</a></td>
 					</tr>
 				{% endfor %}
