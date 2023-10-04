@@ -61,16 +61,13 @@ class CampusController extends AbstractController
     /**
      * @Route("/campus/remove", name="campus_remove")
      */
-    public function remove(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager): Response // WIP
+    public function remove(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager): Response
     {
         $camp = $campusRepository->find($request->query->get('campus_id'));
-        $entityManager->remove($camp);
-        $entityManager->flush();
+        $campusRepository->remove($camp, true);
 
-        $campus = $campusRepository->findAll();
-
-        return $this->render('campus/list.html.twig', [
-            'campus' => $campus
+        return $this->json([
+            'success' => true
         ]);
     }
 }

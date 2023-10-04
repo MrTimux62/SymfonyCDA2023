@@ -78,15 +78,15 @@ class VilleController extends AbstractController
     }
 
     /**
-     * @Route("/ville/remove/{id}", name="ville_remove")
+     * @Route("/ville/remove", name="ville_remove")
      */
-    public function remove($id, EntityManagerInterface $entityManager): Response
+    public function remove(Request $request, VilleRepository $villeRepository, EntityManagerInterface $entityManager): Response // WIP
     {
-        $ville = $this->villeRepository->find($id);
+        $ville = $villeRepository->find($request->query->get('city_id'));
+        $villeRepository->remove($ville, true);
 
-        $entityManager->remove($ville);
-        $entityManager->flush();
-
-        return $this->list();
+        return $this->json([
+            'success' => true
+        ]);
     }
 }
