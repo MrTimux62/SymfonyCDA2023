@@ -66,9 +66,7 @@ class SortieFormType extends AbstractType
                     ]),
                 ]
             ])
-            ->add('duree', TimeType::class, [
-                // TimeType alors qu'il faudrait un IntegerType selon la maquette :
-                // IntegerType pose souci à la soumission du formulaire (le champ est de type time dans la DB)
+            ->add('duree', IntegerType::class, [
                 'label' => 'Durée :',
                 'label_attr' => ['class' => 'info-label'],
                 'attr' => [
@@ -76,7 +74,6 @@ class SortieFormType extends AbstractType
                     'min' => 0
                 ],
                 'help' => 'minutes',
-                'widget' => 'single_text',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez renseigner une durée.'
