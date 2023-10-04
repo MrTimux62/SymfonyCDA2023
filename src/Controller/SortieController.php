@@ -2,28 +2,29 @@
 
 namespace App\Controller;
 
-use App\Entity\Participant;
 use App\Repository\CampusRepository;
 use App\Entity\Sortie;
 use App\Form\SortieFormType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Time;
 
 class SortieController extends AbstractController
 {
     private $sortieRepository;
     private $campusRepository;
+    private $etatRepository;
 
     public function __construct(SortieRepository $sortieRepository,
-                                CampusRepository $campusRepository)
+                                CampusRepository $campusRepository,
+                                EtatRepository $etatRepository)
     {
         $this->sortieRepository = $sortieRepository;
         $this->campusRepository = $campusRepository;
+        $this->etatRepository = $etatRepository;
     }
     /**
      * @Route("/", name="sortie_list")
@@ -60,8 +61,8 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // TODO : setter les champs de la sortie non saisis dans le formulaire, pour que l'enregistrement soit fonctionnel
-            // exemple : $sortie->setParticipant() pour l'organisateur, correspondant à l'utilisateur connecté
+            $sortie->setParticipantOrganisateur($this->getUser());
+            $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Créée']));
             $this->sortieRepository->add($sortie, true);
             $this->addFlash('success', 'Sortie enregistrée avec succès !');
             return $this->redirectToRoute('sortie_list');

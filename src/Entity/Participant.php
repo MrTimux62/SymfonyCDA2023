@@ -75,7 +75,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $sortiesParticipees;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="participant", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="participantOrganisateur", orphanRemoval=true)
      */
     private $sortiesOrganisees;
 
