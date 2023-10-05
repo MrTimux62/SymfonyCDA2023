@@ -6,6 +6,7 @@ use App\Repository\CampusRepository;
 use App\Entity\Sortie;
 use App\Form\SortieFormType;
 use App\Repository\EtatRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,5 +72,31 @@ class SortieController extends AbstractController
         return $this->render('sortie/create.html.twig', [
             'sortieForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/sortie/desister", name="sortie_desister")
+     */
+    public function desister(Request $request): Response
+    {
+        $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
+        $sortie->removeParticipant($this->getUser());
+        $this->sortieRepository->add($sortie, true);
+        $this->addFlash('warning', 'Désistement pris en compte');
+
+        return $this->redirectToRoute('sortie_list');
+    }
+
+    /**
+     * @Route("/sortie/inscription", name="sortie_inscription")
+     */
+    public function inscription(Request $request): Response
+    {
+        $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
+        $sortie->addParticipant($this->getUser());
+        $this->sortieRepository->add($sortie, true);
+        $this->addFlash('success', 'Inscrit avec succès !');
+
+        return $this->redirectToRoute('sortie_list');
     }
 }
