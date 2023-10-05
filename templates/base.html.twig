@@ -93,6 +93,15 @@
                 </a>
             </li>
 
+            {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.attributes.get('_route') != 'admin_home' %}collapsed{% endif %}" href={{ path('admin_home') }}>
+                        <i class="fs-3 ri-admin-fill"></i>
+                        <span>Gestion Admin</span>
+                    </a>
+                </li>
+            {% endif %}
+
         </ul>
 
     </aside><!-- End Sidebar-->

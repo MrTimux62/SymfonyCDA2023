@@ -1,0 +1,207 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sorties |
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="dashboard">
+
+        <div class="row">
+
+            <div>
+                <div class="row">
+
+                    <!-- Sales Card -->
+                    <div class="col-md-4">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Lieux répertoriés</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bx bxs-map"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ lieux|length }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Sales Card -->
+
+                    <!-- Revenue Card -->
+                    <div class="col-md-4">
+                        <div class="card info-card revenue-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Sorties créées</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bx bx-run"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ sorties|length }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Revenue Card -->
+
+                    <!-- Customers Card -->
+                    <div class="col-md-4">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Participants inscrits</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bx bxs-user"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ participants|length }}</h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+
+                    <div class="col-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Lieux</h5>
+                                <!-- Table with stripped rows -->
+                                <table class="table table-striped datatable" id="lieuTable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Rue</th>
+                                        <th scope="col">Latitude</th>
+                                        <th scope="col">Longitude</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for lieu in lieux %}
+                                        <tr>
+                                            <th scope="row">{{ lieu.nom }}</th>
+                                            <td>{{ lieu.rue }}</td>
+                                            <td>{{ lieu.latitude }}</td>
+                                            <td>{{ lieu.longitude }}</td>
+                                            <td><a class="me-3" href="javascript:void(0)" onclick="removeLieu({{ loop.index - 1 }}, {{ lieu.id }})">Supprimer</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- End Table with stripped rows -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Sorties</h5>
+                                <!-- Table with stripped rows -->
+                                <table class="table table-striped datatable" id="sortieTable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Nom de la sortie</th>
+                                        <th scope="col">Date de la sortie</th>
+                                        <th scope="col">Clôture</th>
+                                        <th scope="col">inscrits/places</th>
+                                        <th scope="col">Etat</th>
+                                        <th scope="col">Inscrit</th>
+                                        <th scope="col">Organisateur</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for sortie in sorties %}
+                                        <tr>
+                                            <th scope="row">{{ sortie.nom }}</th>
+                                            <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
+                                            <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
+                                            <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
+                                            <td>{{ sortie.Etat.libelle }}</td>
+                                            <td>{% if app.user in sortie.participants %}X{% endif %}</td>
+                                            <td>{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</td>
+                                            <td>
+                                                Test
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- End Table with stripped rows -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Participants Gestion -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Participants</h5>
+                                <!-- Table with stripped rows -->
+                                <table class="table table-striped datatable" id="participantTable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Pseudo</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prénom</th>
+                                        <th scope="col">Téléphone</th>
+                                        <th scope="col">Actif</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for participant in participants %}
+                                        <tr>
+                                            <th scope="row">{{ participant.email }}</th>
+                                            <td>{{ participant.pseudo }}</td>
+                                            <td>{% for role in participant.roles %} {{ role }} {% endfor %}</td>
+                                            <td>{{ participant.nom }}</td>
+                                            <td>{{ participant.prenom }}</td>
+                                            <td>{{ participant.telephone }}</td>
+                                            <td>{% if participant.actif %}X{% endif %}</td>
+                                            <td><a class="me-3" href="javascript:void(0)" onclick="removeParticipant({{ loop.index - 1 }}, {{ participant.id }})">Supprimer</a><a href="javascript:void(0)" onclick="disableParticipant({{ loop.index - 1 }}, {{ participant.id }})">Désactiver</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- End Table with stripped rows -->
+                            </div>
+                        </div>
+                    </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block custom_js %}
+            <script type="text/javascript">
+
+                let options = {
+                    searchable: true,
+                    perPage: 10,
+                    locale: 'fr-FR'
+                };
+
+                let participantDatable = new simpleDatatables.DataTable(document.querySelector('#participantTable'), options);
+                let lieuTable = new simpleDatatables.DataTable(document.querySelector('#lieuTable'), options);
+                let sortieTable = new simpleDatatables.DataTable(document.querySelector('#sortieTable'), options);
+            </script>
+{% endblock %}
