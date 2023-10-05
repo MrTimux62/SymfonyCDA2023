@@ -9,7 +9,12 @@
     {{ form_start(sortieForm, {'attr': {'class': 'sortie_create_form'}}) }}
         <div class="card">
             <div class="card-header">
-                <h5 class="m-0">Créer une sortie</h5>
+                {% if app.request.attributes.get('_route') == 'sortie_edit' %}
+                    <h5 class="m-0">Modifier une sortie</h5>
+                {% endif %}
+                {% if app.request.attributes.get('_route') == 'sortie_create' %}
+                    <h5 class="m-0">Créer une sortie</h5>
+                {% endif %}
             </div>
             <div class="card-body">
                 <div class="container mt-5">
@@ -76,6 +81,9 @@
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-outline-success">Enregistrer</button>
             <button class="btn btn-outline-success">Publier la sortie</button>
+            {% if app.request.attributes.get('_route') == 'sortie_edit' %}
+                <input type="button" class="btn btn-outline-warning" onclick="location.href='{{ path('sortie_list') }}';" value="Supprimer la sortie"></input>
+            {% endif %}
             <input type="button" class="btn btn-outline-danger" onclick="location.href='{{ path('sortie_list') }}';" value="Annuler"></input>
         </div>
     {{ form_end(sortieForm) }}

@@ -68,7 +68,33 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('sortie_list');
         }
 
-        return $this->render('sortie/create.html.twig', [
+        return $this->render('sortie/create_edit.html.twig', [
+            'sortieForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/sortie/edit", name="sortie_edit")
+     */
+    public function edit(Request $request): Response
+    {
+        $sortie =  $this->sortieRepository->find($request->query->get('sortie_id'));
+        if ($this->getUser()->getId() !== $sortie->getParticipantOrganisateur()->getId()
+            || $sortie->getEtat()->getLibelle() !== 'Créée') {
+            return new Response('Vous ne pouvez pas modifier cette sortie.', Response::HTTP_FORBIDDEN);
+        }
+        $form = $this->createForm(SortieFormType::class, $sortie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sortie);
+            $em->flush();
+            $this->addFlash('success', 'Sortie modifiée avec succès !');
+            return $this->redirectToRoute('sortie_list');
+        }
+
+        return $this->render('sortie/create_edit.html.twig', [
             'sortieForm' => $form->createView(),
         ]);
     }

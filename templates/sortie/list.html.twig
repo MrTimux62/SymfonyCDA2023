@@ -99,6 +99,9 @@
 						<td>{{ sortie.Etat.libelle }}</td>
 						<td>X</td>
 						<td>{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</td>
+						{% if app.user.id is same as(sortie.participantOrganisateur.id ) and sortie.etat.libelle is same as('Créée') %}
+							<td><a href={{ path('sortie_edit', {'sortie_id': sortie.id }) }}>Modifier</a></td>
+						{% endif %}
 						<td><a href={{ path('sortie_detail', {'sortie_id': sortie.id }) }}>Afficher</a></td>
 					</tr>
 				{% endfor %}
