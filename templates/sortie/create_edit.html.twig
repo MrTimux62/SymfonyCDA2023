@@ -1,12 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créer une sortie |
+{% block title %}
+    {% if app.request.attributes.get('_route') == 'sortie_edit' %}
+        Modifier une sortie |
+    {% endif %}
+    {% if app.request.attributes.get('_route') == 'sortie_create' %}
+        Créer une sortie |
+    {% endif %}
     {{ parent() }}
 {% endblock %}
 
 {% block body %}
 
-    {{ form_start(sortieForm, {'attr': {'class': 'sortie_create_form'}}) }}
+    {{ form_start(sortieForm, {'attr': {'class': 'sortie_create_edit_form'}}) }}
         <div class="card">
             <div class="card-header">
                 {% if app.request.attributes.get('_route') == 'sortie_edit' %}
@@ -80,7 +86,11 @@
         </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-outline-success">Enregistrer</button>
-            <button class="btn btn-outline-success">Publier la sortie</button>
+            {% if sortieId is same as(null) %}
+                <button type="submit" name="publier" class="btn btn-outline-success">Publier la sortie</button>
+                {% else %}
+                <input type="button" class="btn btn-outline-success" onclick="location.href='{{ path('sortie_publier', {'sortie_id': sortieId }) }}';" value="Publier la sortie"></input>
+            {% endif %}
             {% if app.request.attributes.get('_route') == 'sortie_edit' %}
                 <input type="button" class="btn btn-outline-warning" onclick="location.href='{{ path('sortie_list') }}';" value="Supprimer la sortie"></input>
             {% endif %}

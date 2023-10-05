@@ -1249,10 +1249,10 @@ h6 {
   display: block;
 }
 
-.sortie_create_form textarea {
+.sortie_create_edit_form textarea {
   resize: none;
 }
 
-.sortie_create_form button, .sortie_create_form input {
+.sortie_create_edit_form button, .sortie_create_edit_form input {
   margin: 0 5px;
 }

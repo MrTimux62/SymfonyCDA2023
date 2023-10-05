@@ -6,7 +6,6 @@ use App\Repository\CampusRepository;
 use App\Entity\Sortie;
 use App\Form\SortieFormType;
 use App\Repository\EtatRepository;
-use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,12 +64,16 @@ class SortieController extends AbstractController
             $sortie->setParticipantOrganisateur($this->getUser());
             $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Créée']));
             $this->sortieRepository->add($sortie, true);
+            if ($request->request->has('publier')) {
+                return $this->publier(new Request(['sortie_id' => $sortie->getId()]));
+            }
             $this->addFlash('success', 'Sortie enregistrée avec succès !');
             return $this->redirectToRoute('sortie_list');
         }
 
         return $this->render('sortie/create_edit.html.twig', [
             'sortieForm' => $form->createView(),
+            'sortieId' => null
         ]);
     }
 
@@ -97,6 +100,7 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/create_edit.html.twig', [
             'sortieForm' => $form->createView(),
+            'sortieId' => $sortie->getId()
         ]);
     }
 
@@ -123,6 +127,24 @@ class SortieController extends AbstractController
         $this->sortieRepository->add($sortie, true);
         $this->addFlash('success', 'Inscrit avec succès !');
 
+        return $this->redirectToRoute('sortie_list');
+    }
+
+    /**
+     * @Route("/sortie/publier", name="sortie_publier")
+     */
+    public function publier(Request $request): Response
+    {
+        $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
+        if ($this->getUser()->getId() !== $sortie->getParticipantOrganisateur()->getId()
+            || $sortie->getEtat()->getLibelle() !== 'Créée') {
+            return new Response('Vous ne pouvez pas publier cette sortie.', Response::HTTP_FORBIDDEN);
+        }
+        $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Ouverte']));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($sortie);
+        $em->flush();
+        $this->addFlash('success', 'Sortie publiée avec succès !');
         return $this->redirectToRoute('sortie_list');
     }
 }
