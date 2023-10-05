@@ -45,6 +45,9 @@ class SortieController extends AbstractController
     public function detail(Request $request): Response
     {
         $sortie =  $this->sortieRepository->find($request->query->get('sortie_id'));
+        if ($sortie === null) {
+            return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
+        }
 
         return $this->render('sortie/detail.html.twig', [
             'sortie' => $sortie,
@@ -83,6 +86,9 @@ class SortieController extends AbstractController
     public function edit(Request $request): Response
     {
         $sortie =  $this->sortieRepository->find($request->query->get('sortie_id'));
+        if ($sortie === null) {
+            return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
+        }
         if ($this->getUser()->getId() !== $sortie->getParticipantOrganisateur()->getId()
             || $sortie->getEtat()->getLibelle() !== 'Créée') {
             return new Response('Vous ne pouvez pas modifier cette sortie.', Response::HTTP_FORBIDDEN);
@@ -94,6 +100,9 @@ class SortieController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($sortie);
             $em->flush();
+            if ($request->request->has('publier')) {
+                return $this->publier(new Request(['sortie_id' => $sortie->getId()]));
+            }
             $this->addFlash('success', 'Sortie modifiée avec succès !');
             return $this->redirectToRoute('sortie_list');
         }
@@ -110,6 +119,9 @@ class SortieController extends AbstractController
     public function desister(Request $request): Response
     {
         $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
+        if ($sortie === null) {
+            return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
+        }
         $sortie->removeParticipant($this->getUser());
         $this->sortieRepository->add($sortie, true);
         $this->addFlash('warning', 'Désistement pris en compte');
@@ -123,6 +135,9 @@ class SortieController extends AbstractController
     public function inscription(Request $request): Response
     {
         $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
+        if ($sortie === null) {
+            return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
+        }
         $sortie->addParticipant($this->getUser());
         $this->sortieRepository->add($sortie, true);
         $this->addFlash('success', 'Inscrit avec succès !');
@@ -136,6 +151,9 @@ class SortieController extends AbstractController
     public function publier(Request $request): Response
     {
         $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
+        if ($sortie === null) {
+            return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
+        }
         if ($this->getUser()->getId() !== $sortie->getParticipantOrganisateur()->getId()
             || $sortie->getEtat()->getLibelle() !== 'Créée') {
             return new Response('Vous ne pouvez pas publier cette sortie.', Response::HTTP_FORBIDDEN);
@@ -145,6 +163,24 @@ class SortieController extends AbstractController
         $em->persist($sortie);
         $em->flush();
         $this->addFlash('success', 'Sortie publiée avec succès !');
+        return $this->redirectToRoute('sortie_list');
+    }
+
+    /**
+     * @Route("/sortie/delete", name="sortie_delete")
+     */
+    public function delete(Request $request): Response
+    {
+        $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
+        if ($sortie === null) {
+            return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
+        }
+        if ($this->getUser()->getId() !== $sortie->getParticipantOrganisateur()->getId()
+            || $sortie->getEtat()->getLibelle() !== 'Créée') {
+            return new Response('Vous ne pouvez pas supprimer cette sortie.', Response::HTTP_FORBIDDEN);
+        }
+        $this->sortieRepository->remove($sortie, true);
+        $this->addFlash('warning', 'Sortie supprimée avec succès !');
         return $this->redirectToRoute('sortie_list');
     }
 }
