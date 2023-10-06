@@ -76,7 +76,7 @@
 		<div class="card-body">
 
 			<!-- Table with stripped rows -->
-			<table class="table table-striped datatable">
+			<table class="table table-striped datatable" id="sortieTable">
 				<thead>
 				<tr>
 					<th scope="col">Nom de la sortie</th>
@@ -134,4 +134,16 @@
 		<input type="button" class="btn btn-outline-success" onclick="location.href='{{ path('sortie_create') }}';" value="Créer une sortie" />
 	</div>
 
+{% endblock %}
+
+{% block custom_js  %}
+	<script type="text/javascript">
+		let options = {
+			searchable: false,
+			perPage: 20,
+			locale: 'fr-FR'
+		};
+
+		let dataTable = new simpleDatatables.DataTable(document.querySelector('#sortieTable'), options);
+	</script>
 {% endblock %}
