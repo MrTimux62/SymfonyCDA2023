@@ -113,9 +113,9 @@
 								{% endif %}
 								{% if app.user != sortie.participantOrganisateur and sortie.Etat.libelle == "Ouverte" %}
 									{% if app.user in sortie.participants %}
-										<a class="me-3" href={{ path('sortie_desister', {'sortie_id': sortie.id }) }}><i class="fs-3 text-danger bx bxs-book"></i></a>
+										<a class="me-3" href={{ path('sortie_desister', {'sortie_id': sortie.id }) }}><i class="fs-3 text-danger bx bxs-user-minus" title="Se désister"></i></a>
 									{% else %}
-										<a class="me-3" href={{ path('sortie_inscription', {'sortie_id': sortie.id }) }}><i class="fs-3 text-success bx bxs-book-add"></i></a>
+										<a class="me-3" href={{ path('sortie_inscription', {'sortie_id': sortie.id }) }}><i class="fs-3 text-success bx bxs-user-plus" title="S'inscrire"></i></a>
 									{% endif %}
 								{% endif %}
 							</td>

@@ -135,7 +135,7 @@
                                             <td>{% if app.user in sortie.participants %}<i class="fs-3 text-success bx bxs-check-circle"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" title="Supprimer"></i>{% endif %}</td>
                                             <td>{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</td>
                                             <td>
-                                                <a class="me-3" href="{{ path('admin_sortie_delete', {'sortie_id': sortie.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bx-undo" title="Annuler"></i></a>
+                                                <a class="me-3" href="{{ path('admin_sortie_delete', {'sortie_id': sortie.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" title="Annuler"></i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -177,7 +177,7 @@
                                             <td>{% if participant.actif %}<i class="fs-3 text-success bx bxs-check-circle" title="Actif"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" title="Non actif"></i>{% endif %}</td>
                                             <td>
                                                 <a class="me-3" href="{{ path('admin_participant_delete', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" title="Supprimer"></i></a>
-                                                <a href="{{ path('admin_participant_switch', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')">{% if participant.actif %}<i class="fs-3 text-danger bx bxs-book" title="Désactivé"></i>{% else %}<i class="fs-3 text-success bx bxs-trash" title="Activé"></i>{% endif %}</a>
+                                                <a href="{{ path('admin_participant_switch', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')">{% if participant.actif %}<i class="fs-3 text-danger bx bxs-user-x" title="Désactivé"></i>{% else %}<i class="fs-3 text-success bx bxs-user-check" title="Activé"></i>{% endif %}</a>
                                             </td>
                                         </tr>
                                     {% endfor %}
