@@ -43,7 +43,10 @@
 				{% for camp in campus %}
 					<tr>
 						<th scope="row">{{ camp.nom }}</th>
-						<td><a class="me-3" href="javascript:void(0)" onclick="editCampus({{ loop.index - 1 }}, {{ camp.id }})">Modifier</a><a href="javascript:void(0)" onclick="removeCampus({{ loop.index - 1 }}, {{ camp.id }})">Supprimer</a></td>
+						<td>
+							<a class="me-3" href="javascript:void(0)" onclick="editCampus({{ loop.index - 1 }}, {{ camp.id }})"><i class="fs-3 text-warning bx bxs-edit"></i></a>
+							<a href="javascript:void(0)" onclick="removeCampus({{ loop.index - 1 }}, {{ camp.id }})"><i class="fs-3 text-danger bx bxs-trash"></i></a>
+						</td>
 					</tr>
 				{% endfor %}
 					<tr>

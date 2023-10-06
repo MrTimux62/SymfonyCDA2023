@@ -101,11 +101,11 @@
 							<td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
 							<td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
 							<td>{{ sortie.Etat.libelle }}</td>
-							<td>{% if app.user in sortie.participants %}X{% endif %}</td>
+							<td>{% if app.user in sortie.participants %}<i class="fs-3 text-success bx bxs-check-circle"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle"></i>{% endif %}</td>
 							<td>{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</td>
 							<td>
 								{% if sortie.etat.libelle is not same as ('Créée') %}
-									<a class="me-3" href={{ path('sortie_detail', {'sortie_id': sortie.id }) }}>Afficher</a>
+									<a class="me-3" href={{ path('sortie_detail', {'sortie_id': sortie.id }) }}><i class="fs-3 text-info bx bxs-show"></i></a>
 								{% endif %}
 								{% if app.user.id is same as(sortie.participantOrganisateur.id ) and sortie.etat.libelle is same as('Créée') %}
 									<a href={{ path('sortie_edit', {'sortie_id': sortie.id }) }}>Modifier</a>
@@ -113,9 +113,9 @@
 								{% endif %}
 								{% if app.user != sortie.participantOrganisateur and sortie.Etat.libelle == "Ouverte" %}
 									{% if app.user in sortie.participants %}
-										<a class="me-3" href={{ path('sortie_desister', {'sortie_id': sortie.id }) }}>Se désister</a>
+										<a class="me-3" href={{ path('sortie_desister', {'sortie_id': sortie.id }) }}><i class="fs-3 text-danger bx bxs-book"></i></a>
 									{% else %}
-										<a class="me-3" href={{ path('sortie_inscription', {'sortie_id': sortie.id }) }}>S'inscrire</a>
+										<a class="me-3" href={{ path('sortie_inscription', {'sortie_id': sortie.id }) }}><i class="fs-3 text-success bx bxs-book-add"></i></a>
 									{% endif %}
 								{% endif %}
 							</td>

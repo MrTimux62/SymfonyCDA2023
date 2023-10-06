@@ -96,7 +96,7 @@
                                             <td>{{ lieu.rue }}</td>
                                             <td>{{ lieu.latitude }}</td>
                                             <td>{{ lieu.longitude }}</td>
-                                            <td><a class="me-3" href="javascript:void(0)" onclick="removeLieu({{ loop.index - 1 }}, {{ lieu.id }})">Supprimer</a></td>
+                                            <td><a class="me-3" href="javascript:void(0)" onclick="removeLieu({{ loop.index - 1 }}, {{ lieu.id }})"><i class="fs-3 text-danger bx bxs-trash" title="Supprimer"></i></a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -132,10 +132,10 @@
                                             <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
                                             <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
                                             <td>{{ sortie.Etat.libelle }}</td>
-                                            <td>{% if app.user in sortie.participants %}X{% endif %}</td>
+                                            <td>{% if app.user in sortie.participants %}<i class="fs-3 text-success bx bxs-check-circle"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" title="Supprimer"></i>{% endif %}</td>
                                             <td>{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</td>
                                             <td>
-                                                Test
+                                                <a class="me-3" href="{{ path('admin_sortie_delete', {'sortie_id': sortie.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bx-undo" title="Annuler"></i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -174,8 +174,11 @@
                                             <td>{{ participant.nom }}</td>
                                             <td>{{ participant.prenom }}</td>
                                             <td>{{ participant.telephone }}</td>
-                                            <td>{% if participant.actif %}X{% endif %}</td>
-                                            <td><a class="me-3" href="javascript:void(0)" onclick="removeParticipant({{ loop.index - 1 }}, {{ participant.id }})">Supprimer</a><a href="javascript:void(0)" onclick="disableParticipant({{ loop.index - 1 }}, {{ participant.id }})">Désactiver</a></td>
+                                            <td>{% if participant.actif %}<i class="fs-3 text-success bx bxs-check-circle" title="Actif"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" title="Non actif"></i>{% endif %}</td>
+                                            <td>
+                                                <a class="me-3" href="{{ path('admin_participant_delete', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" title="Supprimer"></i></a>
+                                                <a href="{{ path('admin_participant_switch', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')">{% if participant.actif %}<i class="fs-3 text-danger bx bxs-book" title="Désactivé"></i>{% else %}<i class="fs-3 text-success bx bxs-trash" title="Activé"></i>{% endif %}</a>
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

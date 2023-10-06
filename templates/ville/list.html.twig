@@ -45,7 +45,10 @@
 					<tr>
 						<th scope="row">{{ ville.nom }}</th>
 						<td>{{ ville.codePostal }}</td>
-						<td><a class="me-3" href="javascript:void(0)" onclick="editCity({{ loop.index - 1 }}, {{ ville.id }})">Modifier</a><a href="javascript:void(0)" onclick="removeCity({{ loop.index - 1 }}, {{ ville.id }})">Supprimer</a></td>
+						<td>
+							<a class="me-3" href="javascript:void(0)" onclick="editCity({{ loop.index - 1 }}, {{ ville.id }})"><i class="fs-3 text-warning bx bxs-edit"></i></a>
+							<a href="javascript:void(0)" onclick="removeCity({{ loop.index - 1 }}, {{ ville.id }})"><i class="fs-3 text-danger bx bxs-trash"></i></a>
+						</td>
 					</tr>
 				{% endfor %}
 					<tr>
