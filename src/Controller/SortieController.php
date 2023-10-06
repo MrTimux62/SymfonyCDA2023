@@ -48,6 +48,12 @@ class SortieController extends AbstractController
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
         }
+        if ($sortie->getEtat()->getLibelle() !== 'Ouverte' &&
+            ($sortie->getParticipantOrganisateur() !== $this->getUser() ||
+            $sortie->getEtat()->getLibelle() === 'Créée' ||
+            !$sortie->getParticipants()->contains($this->getUser()))) {
+            return new Response('Vous ne pouvez pas afficher cette sortie.', Response::HTTP_FORBIDDEN);
+        }
 
         return $this->render('sortie/detail.html.twig', [
             'sortie' => $sortie,
