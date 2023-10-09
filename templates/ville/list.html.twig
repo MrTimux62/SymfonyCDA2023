@@ -46,8 +46,8 @@
 						<th scope="row">{{ ville.nom }}</th>
 						<td>{{ ville.codePostal }}</td>
 						<td>
-							<a class="me-3" href="javascript:void(0)" onclick="editCity({{ loop.index - 1 }}, {{ ville.id }})"><i class="fs-3 text-warning bx bxs-edit"></i></a>
-							<a href="javascript:void(0)" onclick="removeCity({{ loop.index - 1 }}, {{ ville.id }})"><i class="fs-3 text-danger bx bxs-trash"></i></a>
+							<a class="me-3" href="javascript:void(0)" onclick="editCity({{ loop.index - 1 }}, {{ ville.id }})"><i class="fs-3 text-warning bx bxs-edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"></i></a>
+							<a href="javascript:void(0)" onclick="removeCity({{ loop.index - 1 }}, {{ ville.id }})"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"></i></a>
 						</td>
 					</tr>
 				{% endfor %}
@@ -88,11 +88,11 @@
 						dataTable.rows.remove($(".datatable tr").length - 2);
 
 						// add new city
-						let newRow = [data.city.nom, data.city.codePostal, '<a class="me-3" href="javascript:void(0)" onclick="editCity('+($(".datatable tr").length - 1)+', '+data.city.id+')">Modifier</a><a href="javascript:void(0)" onclick="removeCity('+($(".datatable tr").length - 1)+','+data.city.id+')">Supprimer</a>'];
+						let newRow = [data.city.nom, data.city.codePostal, '<a class="me-3" href="javascript:void(0)" onclick="editCity('+($(".datatable tr").length - 1)+', '+data.city.id+')">Modifier</a><a href="javascript:void(0)" onclick="removeCity('+($(".datatable tr").length - 1)+','+data.city.id+')" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">Supprimer</a>'];
 						dataTable.rows.add(newRow);
 
 						// insert add
-						newRow = ['<input id="city_name" type="text" class="form-control">', '<input id="city_postalCode" type="number" class="form-control">', '<button onclick="addCity()" class="btn btn-outline-success">Ajouter</button>'];
+						newRow = ['<input id="city_name" type="text" class="form-control">', '<input id="city_postalCode" type="number" class="form-control">', '<button onclick="addCity()" class="btn btn-outline-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Ajouter">Ajouter</button>'];
 						dataTable.rows.add(newRow);
 					}
 				}
