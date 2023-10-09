@@ -102,6 +102,30 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/lieu/delete", name="admin_lieu_delete")
+     */
+    public function lieuDelete(Request $request): Response
+    {
+
+        if ($this->getUser())
+        {
+            if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
+                return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+            }
+        } else {
+            return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+        }
+
+        $lieu = $this->lieuRepository->find($request->query->get('lieu_id'));
+        if ($lieu === null) {
+            return new Response('Ce lieu n\'existe pas.', Response::HTTP_NOT_FOUND);
+        }
+        $this->lieuRepository->remove($lieu, true);
+        $this->addFlash('warning', 'Lieu supprimée avec succès !');
+        return $this->redirectToRoute('admin_home');
+    }
+
+    /**
      * @Route("/admin/participant/switch", name="admin_participant_switch")
      */
     public function participantSwitch(Request $request): Response

@@ -74,7 +74,7 @@
 
                     </div><!-- End Customers Card -->
 
-                    <div class="col-5">
+                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Lieux</h5>
@@ -96,7 +96,7 @@
                                             <td>{{ lieu.rue }}</td>
                                             <td>{{ lieu.latitude }}</td>
                                             <td>{{ lieu.longitude }}</td>
-                                            <td><a class="me-3" href="javascript:void(0)" onclick="removeLieu({{ loop.index - 1 }}, {{ lieu.id }})"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"></i></a></td>
+                                            <td><a class="me-3" href="{{ path('admin_lieu_delete', {'lieu_id': lieu.id }) }}"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"></i></a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -106,7 +106,7 @@
                         </div>
                     </div>
 
-                    <div class="col-7">
+                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Sorties</h5>
@@ -147,7 +147,7 @@
                     </div>
 
                     <!-- Participants Gestion -->
-                    <div class="col-12">
+                    <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Participants</h5>

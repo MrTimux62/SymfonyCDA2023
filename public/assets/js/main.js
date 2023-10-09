@@ -313,6 +313,8 @@
     new simpleDatatables.DataTable(datatable, options);
   })*/
 
+
+
   /**
    * Autoresize echart charts
    */
