@@ -73,6 +73,7 @@ class SortieController extends AbstractController
             $sortie->setParticipantOrganisateur($this->getUser());
             $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Créée']));
             $this->sortieRepository->add($sortie, true);
+            $this->inscription(new Request(['sortie_id' => $sortie->getId()]));
             if ($request->request->has('publier')) {
                 return $this->publier(new Request(['sortie_id' => $sortie->getId()]));
             }
