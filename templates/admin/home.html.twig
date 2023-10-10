@@ -184,6 +184,38 @@
                                     </tbody>
                                 </table>
                                 <!-- End Table with stripped rows -->
+
+                                <div>
+                                    <input type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#newParticipant" value="Créer un participant" />
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="newParticipant" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title">Inscrire un participant</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ form_start(registrationForm) }}
+                                                {{ form_row(registrationForm.pseudo) }}
+                                                {{ form_row(registrationForm.plainPassword) }}
+                                                {{ form_row(registrationForm.email) }}
+                                                {{ form_row(registrationForm.nom) }}
+                                                {{ form_row(registrationForm.prenom) }}
+                                                {{ form_row(registrationForm.telephone) }}
+                                                {{ form_row(registrationForm.agreeTerms) }}
+                                                <button type="submit" class="btn btn-outline-success">Enregistrer</button>
+                                            {{ form_end(registrationForm) }}
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

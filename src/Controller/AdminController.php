@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Entity\Ville;
+use App\Form\RegistrationFormType;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
@@ -12,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
@@ -30,7 +33,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="admin_home")
      */
-    public function home(): Response
+    public function home(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         if ($this->getUser())
         {
@@ -41,6 +44,29 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+
+        $user = new Participant();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        // Si inscription utilisateur
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            // Default Value
+            $user->setIsActif(true);
+            $user->setRoles(['ROLE_USER']);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }
+
         $participants = $this->participantRepository->findAll();
         $sorties = $this->sortieRepository->findAll();
         $lieux = $this->lieuRepository->findAll();
@@ -48,7 +74,8 @@ class AdminController extends AbstractController
         return $this->render('admin/home.html.twig', [
             'participants' => $participants,
             'sorties' => $sorties,
-            'lieux' => $lieux
+            'lieux' => $lieux,
+            'registrationForm' => $form->createView()
         ]);
     }
 
