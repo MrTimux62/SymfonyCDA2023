@@ -43,7 +43,6 @@
    */
   if (select('.toggle-sidebar-btn')) {
     on('click', '.toggle-sidebar-btn', function(e) {
-      console.log("test")
       select('body').classList.toggle('toggle-sidebar')
     })
   }
@@ -112,10 +111,13 @@
   /**
    * Initiate tooltips
    */
-  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-  })
+
+  $(document).ready(function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  });
 
   /**
    * Initiate quill editors
@@ -309,6 +311,8 @@
   datatables.forEach(datatable => {
     new simpleDatatables.DataTable(datatable, options);
   })*/
+
+
 
   /**
    * Autoresize echart charts

@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use App\Validator\Constraints\LessThanDateHeureDebut;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -21,31 +23,41 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom.")
+     * @Assert\Length(max={150}, maxMessage="Le nom ne doit pas dépasser 150 caractères.")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Veuillez renseigner une date et une heure.")
+     * @Assert\GreaterThanOrEqual("now", message="La date et l'heure doivent être au minimum maintenant.")
      */
     private $dateHeureDebut;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Veuillez renseigner une durée.")
      */
     private $duree;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank(message="Veuillez renseigner une date limite d\'inscription.")
+     * @Assert\GreaterThanOrEqual("today", message="La date limite d'inscription doit être au minimum aujourd'hui.")
+     * @LessThanDateHeureDebut
      */
     private $dateLimiteInscription;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Veuillez renseigner un nombre de places.")
      */
     private $nbInscriptionsMax;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Veuillez renseigner une description.")
      */
     private $infosSortie;
 
@@ -69,12 +81,14 @@ class Sortie
     /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Veuillez renseigner un lieu.")
      */
     private $lieu;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Veuillez renseigner un campus.")
      */
     private $campus;
 

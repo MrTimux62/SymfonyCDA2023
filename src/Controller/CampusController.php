@@ -17,6 +17,9 @@ class CampusController extends AbstractController
      */
     public function list(CampusRepository $campusRepository): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $campus = $campusRepository->findAll();
 
         return $this->render('campus/list.html.twig', [
@@ -29,6 +32,9 @@ class CampusController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $campus = new Campus();
         $campus->setNom($request->query->get('campus_name'));
 
@@ -46,6 +52,9 @@ class CampusController extends AbstractController
      */
     public function edit(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $campus = $campusRepository->find($request->query->get('campus_id'));
         $campus->setNom($request->query->get('campus_name'));
 
@@ -63,6 +72,9 @@ class CampusController extends AbstractController
      */
     public function remove(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $camp = $campusRepository->find($request->query->get('campus_id'));
         $campusRepository->remove($camp, true);
 

@@ -1,0 +1,242 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sorties |
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="dashboard">
+
+        <div class="row">
+
+            <div>
+                <div class="row">
+
+                    <!-- Sales Card -->
+                    <div class="col-md-4">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Lieux répertoriés</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bx bxs-map"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ lieux|length }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Sales Card -->
+
+                    <!-- Revenue Card -->
+                    <div class="col-md-4">
+                        <div class="card info-card revenue-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Sorties créées</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bx bx-run"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ sorties|length }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Revenue Card -->
+
+                    <!-- Customers Card -->
+                    <div class="col-md-4">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Participants inscrits</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bx bxs-user"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ participants|length }}</h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Lieux</h5>
+                                <!-- Table with stripped rows -->
+                                <table class="table table-striped datatable" id="lieuTable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Rue</th>
+                                        <th scope="col">Latitude</th>
+                                        <th scope="col">Longitude</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for lieu in lieux %}
+                                        <tr>
+                                            <th scope="row">{{ lieu.nom }}</th>
+                                            <td>{{ lieu.rue }}</td>
+                                            <td>{{ lieu.latitude }}</td>
+                                            <td>{{ lieu.longitude }}</td>
+                                            <td><a class="me-3" href="{{ path('admin_lieu_delete', {'lieu_id': lieu.id }) }}"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"></i></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- End Table with stripped rows -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Sorties</h5>
+                                <!-- Table with stripped rows -->
+                                <table class="table table-striped datatable" id="sortieTable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Nom de la sortie</th>
+                                        <th scope="col">Date de la sortie</th>
+                                        <th scope="col">Clôture</th>
+                                        <th scope="col">inscrits/places</th>
+                                        <th scope="col">Etat</th>
+                                        <th scope="col">Inscrit</th>
+                                        <th scope="col">Organisateur</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for sortie in sorties %}
+                                        <tr>
+                                            <th scope="row">{{ sortie.nom }}</th>
+                                            <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
+                                            <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
+                                            <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
+                                            <td>{{ sortie.Etat.libelle }}</td>
+                                            <td>{% if app.user in sortie.participants %}<i class="fs-3 text-success bx bxs-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Actif"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Non actif"></i>{% endif %}</td>
+                                            <td><a class="text-primary text-decoration-none" href="{{ path('profil_view', {'id': sortie.participantOrganisateur.id }) }}">{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</a></td>
+                                            <td>
+                                                <a class="me-3" href="{{ path('admin_sortie_delete', {'sortie_id': sortie.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Annuler"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- End Table with stripped rows -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Participants Gestion -->
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Participants</h5>
+                                <!-- Table with stripped rows -->
+                                <table class="table table-striped datatable" id="participantTable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Pseudo</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prénom</th>
+                                        <th scope="col">Téléphone</th>
+                                        <th scope="col">Actif</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for participant in participants %}
+                                        <tr>
+                                            <th scope="row">{{ participant.email }}</th>
+                                            <td><a class="text-primary text-decoration-none" href="{{ path('profil_view', {'id': participant.id }) }}">{{ participant.pseudo }}</a></td>
+                                            <td>{% for role in participant.roles %} {{ role }} {% endfor %}</td>
+                                            <td>{{ participant.nom }}</td>
+                                            <td>{{ participant.prenom }}</td>
+                                            <td>{{ participant.telephone }}</td>
+                                            <td>{% if participant.actif %}<i class="fs-3 text-success bx bxs-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Actif"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Non actif"></i>{% endif %}</td>
+                                            <td>
+                                                <a class="me-3" href="{{ path('admin_participant_delete', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"></i></a>
+                                                <a href="{{ path('admin_participant_switch', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')">{% if participant.actif %}<i class="fs-3 text-danger bx bxs-user-x" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Désactiver"></i>{% else %}<i class="fs-3 text-success bx bxs-user-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Activer"></i>{% endif %}</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- End Table with stripped rows -->
+
+                                <div>
+                                    <input type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#newParticipant" value="Créer un participant" />
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="newParticipant" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title">Inscrire un participant</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ form_start(registrationForm) }}
+                                                {{ form_row(registrationForm.pseudo) }}
+                                                {{ form_row(registrationForm.plainPassword) }}
+                                                {{ form_row(registrationForm.email) }}
+                                                {{ form_row(registrationForm.nom) }}
+                                                {{ form_row(registrationForm.prenom) }}
+                                                {{ form_row(registrationForm.telephone) }}
+                                                {{ form_row(registrationForm.agreeTerms) }}
+                                                <button type="submit" class="btn btn-outline-success">Enregistrer</button>
+                                            {{ form_end(registrationForm) }}
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block custom_js %}
+            <script type="text/javascript">
+
+                let options = {
+                    searchable: true,
+                    perPage: 10,
+                    locale: 'fr-FR'
+                };
+
+                let participantDatable = new simpleDatatables.DataTable(document.querySelector('#participantTable'), options);
+                let lieuTable = new simpleDatatables.DataTable(document.querySelector('#lieuTable'), options);
+                let sortieTable = new simpleDatatables.DataTable(document.querySelector('#sortieTable'), options);
+            </script>
+{% endblock %}
