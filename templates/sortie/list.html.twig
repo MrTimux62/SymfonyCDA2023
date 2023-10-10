@@ -108,8 +108,8 @@
 									<a class="me-3" href={{ path('sortie_detail', {'sortie_id': sortie.id }) }}><i class="fs-3 text-info bx bxs-show" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"></i></a>
 								{% endif %}
 								{% if app.user.id is same as(sortie.participantOrganisateur.id ) and sortie.etat.libelle is same as('Créée') %}
-									<a href={{ path('sortie_edit', {'sortie_id': sortie.id }) }}>Modifier</a>
-									<a href={{ path('sortie_publier', {'sortie_id': sortie.id }) }}>Publier</a>
+									<a class="me-3" href={{ path('sortie_edit', {'sortie_id': sortie.id }) }}><i class="fs-3 text-warning bx bxs-edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"></i></a>
+									<a class="me-3" href={{ path('sortie_publier', {'sortie_id': sortie.id }) }}><i class="fs-3 text-success bx bx-send" data-bs-toggle="tooltip" data-bs-placement="top" title="Publier"></i></a>
 								{% endif %}
 								{% if app.user != sortie.participantOrganisateur and sortie.Etat.libelle == "Ouverte" %}
 									{% if app.user in sortie.participants %}
