@@ -102,14 +102,14 @@
 							<td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
 							<td>{{ sortie.Etat.libelle }}</td>
 							<td>{% if app.user in sortie.participants %}<i class="fs-3 text-success bx bxs-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Inscrit"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Non Inscrit"></i>{% endif %}</td>
-							<td>{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</td>
+							<td><a class="text-primary text-decoration-none" href="{{ path('profil_view', {'id': sortie.participantOrganisateur.id }) }}">{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</a></td>
 							<td>
 								{% if sortie.etat.libelle is not same as ('Créée') %}
 									<a class="me-3" href={{ path('sortie_detail', {'sortie_id': sortie.id }) }}><i class="fs-3 text-info bx bxs-show" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"></i></a>
 								{% endif %}
 								{% if app.user.id is same as(sortie.participantOrganisateur.id ) and sortie.etat.libelle is same as('Créée') %}
-									<a href={{ path('sortie_edit', {'sortie_id': sortie.id }) }}>Modifier</a>
-									<a href={{ path('sortie_publier', {'sortie_id': sortie.id }) }}>Publier</a>
+									<a class="me-3" href={{ path('sortie_edit', {'sortie_id': sortie.id }) }}><i class="fs-3 text-warning bx bxs-edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"></i></a>
+									<a class="me-3" href={{ path('sortie_publier', {'sortie_id': sortie.id }) }}><i class="fs-3 text-success bx bx-send" data-bs-toggle="tooltip" data-bs-placement="top" title="Publier"></i></a>
 								{% endif %}
 								{% if app.user != sortie.participantOrganisateur and sortie.Etat.libelle == "Ouverte" %}
 									{% if app.user in sortie.participants %}
