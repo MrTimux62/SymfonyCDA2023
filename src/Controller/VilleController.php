@@ -47,6 +47,9 @@ class VilleController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $ville = new Ville();
         $ville->setNom($request->query->get('city_name'))->setCodePostal($request->query->get('city_postalCode'));
 
@@ -64,6 +67,9 @@ class VilleController extends AbstractController
      */
     public function edit(Request $request, VilleRepository $villeRepository, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $ville = $villeRepository->find($request->query->get('city_id'));
         $ville->setNom($request->query->get('city_name'))->setCodePostal($request->query->get('city_postalCode'));
 
@@ -82,6 +88,9 @@ class VilleController extends AbstractController
      */
     public function remove(Request $request, VilleRepository $villeRepository, EntityManagerInterface $entityManager): Response // WIP
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $ville = $villeRepository->find($request->query->get('city_id'));
         $villeRepository->remove($ville, true);
 

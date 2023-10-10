@@ -32,14 +32,13 @@ class AdminController extends AbstractController
      */
     public function home(): Response
     {
-
         if ($this->getUser())
         {
             if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
                 return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+            return $this->redirectToRoute('app_login');
         }
 
         $participants = $this->participantRepository->findAll();
@@ -58,14 +57,13 @@ class AdminController extends AbstractController
      */
     public function sortieDelete(Request $request): Response
     {
-
         if ($this->getUser())
         {
             if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
                 return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+            return $this->redirectToRoute('app_login');
         }
 
         $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
@@ -82,14 +80,13 @@ class AdminController extends AbstractController
      */
     public function participantDelete(Request $request): Response
     {
-
         if ($this->getUser())
         {
             if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
                 return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+            return $this->redirectToRoute('app_login');
         }
 
         $participant = $this->participantRepository->find($request->query->get('participant_id'));
@@ -106,14 +103,13 @@ class AdminController extends AbstractController
      */
     public function lieuDelete(Request $request): Response
     {
-
         if ($this->getUser())
         {
             if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
                 return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+            return $this->redirectToRoute('app_login');
         }
 
         $lieu = $this->lieuRepository->find($request->query->get('lieu_id'));
@@ -130,14 +126,13 @@ class AdminController extends AbstractController
      */
     public function participantSwitch(Request $request): Response
     {
-
         if ($this->getUser())
         {
             if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
                 return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+            return $this->redirectToRoute('app_login');
         }
 
         $participant = $this->participantRepository->find($request->query->get('participant_id'));

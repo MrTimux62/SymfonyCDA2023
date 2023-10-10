@@ -31,6 +31,9 @@ class SortieController extends AbstractController
      */
     public function list(): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $sorties = $this->sortieRepository->findAll();
         $campus = $this->campusRepository->findAll();
 
@@ -44,6 +47,9 @@ class SortieController extends AbstractController
      */
     public function detail(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $sortie =  $this->sortieRepository->find($request->query->get('sortie_id'));
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
@@ -65,6 +71,9 @@ class SortieController extends AbstractController
      */
     public function create(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $sortie = new Sortie();
         $form = $this->createForm(SortieFormType::class, $sortie);
         $form->handleRequest($request);
@@ -92,6 +101,9 @@ class SortieController extends AbstractController
      */
     public function edit(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $sortie =  $this->sortieRepository->find($request->query->get('sortie_id'));
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
@@ -125,6 +137,9 @@ class SortieController extends AbstractController
      */
     public function desister(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
@@ -141,6 +156,9 @@ class SortieController extends AbstractController
      */
     public function inscription(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
@@ -157,6 +175,9 @@ class SortieController extends AbstractController
      */
     public function publier(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
@@ -178,6 +199,9 @@ class SortieController extends AbstractController
      */
     public function delete(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);

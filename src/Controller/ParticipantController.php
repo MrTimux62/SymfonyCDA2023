@@ -24,6 +24,9 @@ class ParticipantController extends AbstractController
      */
     public function editProfil(Request $request): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $user = $this->getUser();
         $form = $this->createForm(EditProfileType::class, $user);
 
