@@ -47,7 +47,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("profil/modifier", name="profil_modifier")
+     * @Route("/modifier", name="profil_modifier")
      */
     public function editProfil(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
