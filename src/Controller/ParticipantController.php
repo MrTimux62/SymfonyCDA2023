@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\EditProfileType;
+use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,22 @@ class ParticipantController extends AbstractController
     public function index(): Response
     {
         return $this->render('participant/index.html.twig');
+    }
+
+    /**
+     * @Route("/profil/{id}", name="profil_view")
+     */
+    public function viewProfil($id, ParticipantRepository $participantRepository): Response
+    {
+        $participant = $participantRepository->find($id);
+
+        if ($participant === null) {
+            return new Response('Ce participant n\'existe pas.', Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->render('participant/view.html.twig', [
+            'participant' => $participant
+        ]);
     }
 
 
