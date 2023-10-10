@@ -31,6 +31,7 @@ class Sortie
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="Veuillez renseigner une date et une heure.")
+     * @Assert\GreaterThanOrEqual("now", message="La date et l'heure doivent être au minimum maintenant.")
      */
     private $dateHeureDebut;
 
@@ -43,6 +44,7 @@ class Sortie
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank(message="Veuillez renseigner une date limite d\'inscription.")
+     * @Assert\GreaterThanOrEqual("today", message="La date limite d'inscription doit être au minimum aujourd'hui.")
      * @LessThanDateHeureDebut
      */
     private $dateLimiteInscription;
