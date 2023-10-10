@@ -24,6 +24,9 @@ class ParticipantController extends AbstractController
      */
     public function viewProfil($id, ParticipantRepository $participantRepository): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $participant = $participantRepository->find($id);
 
         if ($participant === null) {
