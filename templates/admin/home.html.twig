@@ -133,7 +133,7 @@
                                             <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
                                             <td>{{ sortie.Etat.libelle }}</td>
                                             <td>{% if app.user in sortie.participants %}<i class="fs-3 text-success bx bxs-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Actif"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Non actif"></i>{% endif %}</td>
-                                            <td>{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</td>
+                                            <td><a class="text-primary text-decoration-none" href="{{ path('profil_view', {'id': sortie.participantOrganisateur.id }) }}">{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</a></td>
                                             <td>
                                                 <a class="me-3" href="{{ path('admin_sortie_delete', {'sortie_id': sortie.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Annuler"></i></a>
                                             </td>
@@ -169,7 +169,7 @@
                                     {% for participant in participants %}
                                         <tr>
                                             <th scope="row">{{ participant.email }}</th>
-                                            <td>{{ participant.pseudo }}</td>
+                                            <td><a class="text-primary text-decoration-none" href="{{ path('profil_view', {'id': participant.id }) }}">{{ participant.pseudo }}</a></td>
                                             <td>{% for role in participant.roles %} {{ role }} {% endfor %}</td>
                                             <td>{{ participant.nom }}</td>
                                             <td>{{ participant.prenom }}</td>
