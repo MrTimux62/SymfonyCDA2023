@@ -23,40 +23,60 @@
                 {% endif %}
             </div>
             <div class="card-body">
+                <ul class="text-danger">
+                    {{ form_errors(sortieForm.nom) }}
+                    {{ form_errors(sortieForm.dateHeureDebut) }}
+                    {{ form_errors(sortieForm.dateLimiteInscription) }}
+                    {{ form_errors(sortieForm.nbInscriptionsMax) }}
+                    {{ form_errors(sortieForm.duree) }}
+                    {{ form_errors(sortieForm.infosSortie) }}
+                    {{ form_errors(sortieForm.campus) }}
+                    {{ form_errors(sortieForm.ville) }}
+                    {{ form_errors(sortieForm.lieu) }}
+                </ul>
                 <div class="container mt-5">
                     <div class="row">
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <li class="list-group-item info">
-                                    {{ form_row(sortieForm.nom) }}
+                                    {{ form_label(sortieForm.nom) }}
+                                    {{ form_widget(sortieForm.nom) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    {{ form_row(sortieForm.dateHeureDebut) }}
+                                    {{ form_label(sortieForm.dateHeureDebut) }}
+                                    {{ form_widget(sortieForm.dateHeureDebut) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    {{ form_row(sortieForm.dateLimiteInscription) }}
+                                    {{ form_label(sortieForm.dateLimiteInscription) }}
+                                    {{ form_widget(sortieForm.dateLimiteInscription) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    {{ form_row(sortieForm.nbInscriptionsMax) }}
+                                    {{ form_label(sortieForm.nbInscriptionsMax) }}
+                                    {{ form_widget(sortieForm.nbInscriptionsMax) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    {{ form_row(sortieForm.duree) }}
+                                    {{ form_label(sortieForm.duree) }}
+                                    {{ form_widget(sortieForm.duree) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    {{ form_row(sortieForm.infosSortie) }}
+                                    {{ form_label(sortieForm.infosSortie) }}
+                                    {{ form_widget(sortieForm.infosSortie) }}
                                 </li>
                             </ul>
                         </div>
                         <div class="col-md-6">
                             <ul class="list-group">
                                 <li class="list-group-item info">
-                                    {{ form_row(sortieForm.campus) }}
+                                    {{ form_label(sortieForm.campus) }}
+                                    {{ form_widget(sortieForm.campus) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    {{ form_row(sortieForm.ville) }}
+                                    {{ form_label(sortieForm.ville) }}
+                                    {{ form_widget(sortieForm.ville) }}
                                 </li>
                                 <li class="list-group-item info">
-                                    {{ form_row(sortieForm.lieu) }}
+                                    {{ form_label(sortieForm.lieu) }}
+                                    {{ form_widget(sortieForm.lieu) }}
                                     <button type="button" class="btn btn-primary">
                                         <!-- TODO -->
                                         <i class="fas fa-plus"></i>
