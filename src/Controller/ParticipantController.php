@@ -6,11 +6,8 @@ use App\Entity\Participant;
 use App\Form\EditPasswordType;
 use App\Form\EditProfileType;
 use App\Repository\ParticipantRepository;
-<<<<<<< HEAD
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
-=======
->>>>>>> 9a4eb47703836b04c5572ba0373b331ff7bec10f
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -30,8 +27,6 @@ class ParticipantController extends AbstractController
         return $this->render('participant/index.html.twig');
     }
 
-<<<<<<< HEAD
-=======
     /**
      * @Route("/profil/{id}", name="profil_view")
      */
@@ -51,8 +46,6 @@ class ParticipantController extends AbstractController
         ]);
     }
 
-
->>>>>>> 9a4eb47703836b04c5572ba0373b331ff7bec10f
     /**
      * @Route("profil/modifier", name="profil_modifier")
      */
