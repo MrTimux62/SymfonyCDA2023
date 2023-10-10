@@ -144,6 +144,9 @@ class SortieController extends AbstractController
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
         }
+        if ($sortie->getDateLimiteInscription() < getdate()) {
+            return $this->redirectToRoute('sortie_list');
+        }
         $sortie->removeParticipant($this->getUser());
         $this->sortieRepository->add($sortie, true);
         $this->addFlash('warning', 'Désistement pris en compte');
@@ -162,6 +165,9 @@ class SortieController extends AbstractController
         $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
+        }
+        if ($sortie->getDateLimiteInscription() < getdate()) {
+            return $this->redirectToRoute('sortie_list');
         }
         $sortie->addParticipant($this->getUser());
         $this->sortieRepository->add($sortie, true);

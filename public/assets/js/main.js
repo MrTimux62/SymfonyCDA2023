@@ -43,7 +43,6 @@
    */
   if (select('.toggle-sidebar-btn')) {
     on('click', '.toggle-sidebar-btn', function(e) {
-      console.log("test")
       select('body').classList.toggle('toggle-sidebar')
     })
   }

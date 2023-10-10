@@ -111,7 +111,7 @@
 									<a class="me-3" href={{ path('sortie_edit', {'sortie_id': sortie.id }) }}><i class="fs-3 text-warning bx bxs-edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"></i></a>
 									<a class="me-3" href={{ path('sortie_publier', {'sortie_id': sortie.id }) }}><i class="fs-3 text-success bx bx-send" data-bs-toggle="tooltip" data-bs-placement="top" title="Publier"></i></a>
 								{% endif %}
-								{% if app.user != sortie.participantOrganisateur and sortie.Etat.libelle == "Ouverte" %}
+								{% if app.user != sortie.participantOrganisateur and sortie.Etat.libelle == "Ouverte" and (sortie.dateLimiteInscription)|date('d/m/Y') > 'now'|date('d/m/Y') %}
 									{% if app.user in sortie.participants %}
 										<a class="me-3" href={{ path('sortie_desister', {'sortie_id': sortie.id }) }}><i class="fs-3 text-danger bx bxs-user-minus" data-bs-toggle="tooltip" data-bs-placement="top" title="Se désister"></i></a>
 									{% else %}
