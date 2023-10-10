@@ -14,10 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class VilleController extends AbstractController
 {
     private $villeRepository;
+    private $entityManager;
 
-    public function __construct(VilleRepository $villeRepository)
+    public function __construct(VilleRepository $villeRepository, EntityManagerInterface $entityManager)
     {
         $this->villeRepository = $villeRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -33,19 +35,18 @@ class VilleController extends AbstractController
     }
 
     /**
-     * @Route("/ville/getCodePostal", name="get_code_postal", methods={"GET"})
+     * @Route("/ville/getCodePostal/{id}", name="ville_getCodePostal", methods={"GET"})
      */
-    public function getCodePostal(Request $request): JsonResponse
+    public function getCodePostal(Ville $ville): JsonResponse
     {
-        $villeId = $request->query->get('ville_id');
-        $codePostal = $this->villeRepository->find($villeId)->getCodePostal();
+        $codePostal = $ville->getCodePostal();
         return new JsonResponse($codePostal);
     }
 
     /**
      * @Route("/ville/create", name="ville_create")
      */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -53,8 +54,8 @@ class VilleController extends AbstractController
         $ville = new Ville();
         $ville->setNom($request->query->get('city_name'))->setCodePostal($request->query->get('city_postalCode'));
 
-        $entityManager->persist($ville);
-        $entityManager->flush();
+        $this->entityManager->persist($ville);
+        $this->entityManager->flush();
 
         return $this->json([
             'success' => true,
@@ -63,18 +64,17 @@ class VilleController extends AbstractController
     }
 
     /**
-     * @Route("/ville/edit", name="ville_edit")
+     * @Route("/ville/edit/{id}", name="ville_edit")
      */
-    public function edit(Request $request, VilleRepository $villeRepository, EntityManagerInterface $entityManager): Response
+    public function edit(Ville $ville, Request $request): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        $ville = $villeRepository->find($request->query->get('city_id'));
         $ville->setNom($request->query->get('city_name'))->setCodePostal($request->query->get('city_postalCode'));
 
-        $entityManager->persist($ville);
-        $entityManager->flush();
+        $this->entityManager->persist($ville);
+        $this->entityManager->flush();
 
         return $this->json([
             'success' => true,
@@ -84,15 +84,14 @@ class VilleController extends AbstractController
     }
 
     /**
-     * @Route("/ville/remove", name="ville_remove")
+     * @Route("/ville/delete/{id}", name="ville_delete")
      */
-    public function remove(Request $request, VilleRepository $villeRepository, EntityManagerInterface $entityManager): Response // WIP
+    public function delete(Ville $ville): Response // WIP
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        $ville = $villeRepository->find($request->query->get('city_id'));
-        $villeRepository->remove($ville, true);
+        $this->villeRepository->remove($ville, true);
 
         return $this->json([
             'success' => true

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
+use App\Entity\Ville;
 use App\Repository\LieuRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,12 +20,11 @@ class LieuController extends AbstractController
     }
 
     /**
-     * @Route("/lieu/getLieuListByVille", name="get_lieu_list_by_ville", methods={"GET"})
+     * @Route("/lieu/getLieuListByVille/{id}", name="lieu_getLieuListByVille", methods={"GET"})
      */
-    public function getLieuListByVille(Request $request): JsonResponse
+    public function getLieuListByVille(Ville $ville): JsonResponse
     {
-        $villeId = $request->query->get('ville_id');
-        $lieux = $this->lieuRepository->findBy(['ville' => $villeId]);
+        $lieux = $this->lieuRepository->findBy(['ville' => $ville->getId()]);
         $lieuxArray = [];
         foreach ($lieux as $lieu) {
             $lieuxArray[] = [
@@ -35,12 +36,10 @@ class LieuController extends AbstractController
     }
 
     /**
-     * @Route("/lieu/getRueLatitudeLongitude", name="get_rue_latitude_longitude", methods={"GET"})
+     * @Route("/lieu/getRueLatitudeLongitude/{id}", name="lieu_getRueLatitudeLongitude", methods={"GET"})
      */
-    public function getRueLatitudeLongitude(Request $request): JsonResponse
+    public function getRueLatitudeLongitude(Lieu $lieu): JsonResponse
     {
-        $lieuId = $request->query->get('lieu_id');
-        $lieu = $this->lieuRepository->find($lieuId);
         $lieuData = [
             'rue' => $lieu->getRue(),
             'latitude' => $lieu->getLatitude(),

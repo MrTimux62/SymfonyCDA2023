@@ -105,11 +105,11 @@
 							<td><a class="text-primary text-decoration-none" href="{{ path('profil_view', {'id': sortie.participantOrganisateur.id }) }}">{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</a></td>
 							<td>
 								{% if sortie.etat.libelle is not same as ('Créée') %}
-									<a class="me-3" href={{ path('sortie_detail', {'sortie_id': sortie.id }) }}><i class="fs-3 text-info bx bxs-show" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"></i></a>
+									<a class="me-3" href={{ path('sortie_detail', {'id': sortie.id }) }}><i class="fs-3 text-info bx bxs-show" data-bs-toggle="tooltip" data-bs-placement="top" title="Détail"></i></a>
 								{% endif %}
 								{% if app.user.id is same as(sortie.participantOrganisateur.id ) and sortie.etat.libelle is same as('Créée') %}
-									<a class="me-3" href={{ path('sortie_edit', {'sortie_id': sortie.id }) }}><i class="fs-3 text-warning bx bxs-edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"></i></a>
-									<a class="me-3" href={{ path('sortie_publier', {'sortie_id': sortie.id }) }}><i class="fs-3 text-success bx bx-send" data-bs-toggle="tooltip" data-bs-placement="top" title="Publier"></i></a>
+									<a class="me-3" href={{ path('sortie_edit', {'id': sortie.id }) }}><i class="fs-3 text-warning bx bxs-edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier"></i></a>
+									<a class="me-3" href={{ path('sortie_publier', {'id': sortie.id }) }}><i class="fs-3 text-success bx bx-send" data-bs-toggle="tooltip" data-bs-placement="top" title="Publier"></i></a>
 								{% endif %}
 								{% if app.user != sortie.participantOrganisateur and sortie.Etat.libelle == "Ouverte" and (sortie.dateLimiteInscription)|date('d/m/Y') > 'now'|date('d/m/Y') %}
 									{% if app.user in sortie.participants %}

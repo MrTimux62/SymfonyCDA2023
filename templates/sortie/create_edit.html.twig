@@ -108,7 +108,7 @@
             <button type="submit" class="btn btn-outline-success">Enregistrer</button>
             <button type="submit" name="publier" class="btn btn-outline-success">Publier la sortie</button>
             {% if app.request.attributes.get('_route') == 'sortie_edit' %}
-                <input type="button" class="btn btn-outline-warning" onclick="location.href='{{ path('sortie_delete', {'sortie_id': sortieId }) }}';" value="Supprimer la sortie"></input>
+                <input type="button" class="btn btn-outline-warning" onclick="location.href='{{ path('sortie_delete', {'id': sortie.id }) }}';" value="Supprimer la sortie"></input>
             {% endif %}
             <input type="button" class="btn btn-outline-danger" onclick="location.href='{{ path('sortie_list') }}';" value="Annuler"></input>
         </div>

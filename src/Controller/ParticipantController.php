@@ -5,8 +5,6 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\EditPasswordType;
 use App\Form\EditProfileType;
-use App\Repository\ParticipantRepository;
-use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
@@ -19,8 +17,15 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ParticipantController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
-     * @Route("/profil", name="profil")
+     * @Route("/participant", name="participant_index")
      */
     public function index(): Response
     {
@@ -28,14 +33,13 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/profil/{id}", name="profil_view")
+     * @Route("/participant/detail/{id}", name="participant_detail")
      */
-    public function viewProfil($id, ParticipantRepository $participantRepository): Response
+    public function detail(Participant $participant): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        $participant = $participantRepository->find($id);
 
         if ($participant === null) {
             return new Response('Ce participant n\'existe pas.', Response::HTTP_NOT_FOUND);
@@ -47,9 +51,9 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("profil/modifier", name="profil_modifier")
+     * @Route("/participant/edit", name="participant_edit")
      */
-    public function editProfil(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, SluggerInterface $slugger): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -100,9 +104,9 @@ class ParticipantController extends AbstractController
 
 
     /**
-     * @Route("profil/modifier/motdepasse", name="password_modifier")
+     * @Route("profil/edit/password", name="participant_editPassword")
      */
-    public function editPassword(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function editPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -117,8 +121,8 @@ class ParticipantController extends AbstractController
             $hash = $passwordEncoder->encodePassword($user, $form->get('new_password')->getData());
             $user->setPassword($hash);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             $this->addFlash('success', 'Mot de passe modifié !');
 
