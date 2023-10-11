@@ -19,27 +19,27 @@ class Sortie
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=150)
      * @Assert\NotBlank(message="Veuillez renseigner un nom.")
      * @Assert\Length(max={150}, maxMessage="Le nom ne doit pas dépasser 150 caractères.")
      */
-    private $nom;
+    private ?string $nom;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="Veuillez renseigner une date et une heure.")
      * @Assert\GreaterThanOrEqual("now", message="La date et l'heure doivent être au minimum maintenant.")
      */
-    private $dateHeureDebut;
+    private ?\DateTimeInterface $dateHeureDebut;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Veuillez renseigner une durée.")
      */
-    private $duree;
+    private ?int $duree;
 
     /**
      * @ORM\Column(type="date")
@@ -47,36 +47,36 @@ class Sortie
      * @Assert\GreaterThanOrEqual("today", message="La date limite d'inscription doit être au minimum aujourd'hui.")
      * @LessThanDateHeureDebut
      */
-    private $dateLimiteInscription;
+    private ?\DateTimeInterface $dateLimiteInscription;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="Veuillez renseigner un nombre de places.")
      */
-    private $nbInscriptionsMax;
+    private ?int $nbInscriptionsMax;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Veuillez renseigner une description.")
      */
-    private $infosSortie;
+    private ?string $infosSortie;
 
     /**
      * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="sortiesParticipees")
      */
-    private $participants;
+    private ?Collection $participants;
 
     /**
      * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sortiesOrganisees")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $participantOrganisateur;
+    private Participant $participantOrganisateur;
 
     /**
      * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $etat;
+    private Etat $etat;
 
     /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
@@ -107,7 +107,7 @@ class Sortie
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(?string $nom): self
     {
         $this->nom = $nom;
 
@@ -119,7 +119,7 @@ class Sortie
         return $this->dateHeureDebut;
     }
 
-    public function setDateHeureDebut(\DateTimeInterface $dateHeureDebut): self
+    public function setDateHeureDebut(?\DateTimeInterface $dateHeureDebut): self
     {
         $this->dateHeureDebut = $dateHeureDebut;
 
@@ -131,7 +131,7 @@ class Sortie
         return $this->duree;
     }
 
-    public function setDuree(int $duree): self
+    public function setDuree(?int $duree): self
     {
         $this->duree = $duree;
 
@@ -143,7 +143,7 @@ class Sortie
         return $this->dateLimiteInscription;
     }
 
-    public function setDateLimiteInscription(\DateTimeInterface $dateLimiteInscription): self
+    public function setDateLimiteInscription(?\DateTimeInterface $dateLimiteInscription): self
     {
         $this->dateLimiteInscription = $dateLimiteInscription;
 
@@ -155,7 +155,7 @@ class Sortie
         return $this->nbInscriptionsMax;
     }
 
-    public function setNbInscriptionsMax(int $nbInscriptionsMax): self
+    public function setNbInscriptionsMax(?int $nbInscriptionsMax): self
     {
         $this->nbInscriptionsMax = $nbInscriptionsMax;
 
@@ -167,7 +167,7 @@ class Sortie
         return $this->infosSortie;
     }
 
-    public function setInfosSortie(string $infosSortie): self
+    public function setInfosSortie(?string $infosSortie): self
     {
         $this->infosSortie = $infosSortie;
 
@@ -182,7 +182,7 @@ class Sortie
         return $this->participants;
     }
 
-    public function addParticipant(Participant $participant): self
+    public function addParticipant(?Participant $participant): self
     {
         if (!$this->participants->contains($participant)) {
             $this->participants->add($participant);
@@ -192,7 +192,7 @@ class Sortie
         return $this;
     }
 
-    public function removeParticipant(Participant $participant): self
+    public function removeParticipant(?Participant $participant): self
     {
         if ($this->participants->removeElement($participant)) {
             $participant->removeSortieParticipee($this);
