@@ -34,7 +34,7 @@ class SortieController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        $sorties = $this->sortieRepository->findAll();
+        $sorties = $this->sortieRepository->findAllNonArchive();
         $campus = $this->campusRepository->findAll();
 
         return $this->render('sortie/list.html.twig', [
