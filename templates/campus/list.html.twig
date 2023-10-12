@@ -139,7 +139,7 @@
 
 			if (confirm('Supprimer le campus ?')) {
 				$.ajax({
-					url: "{{ path('campus_remove') }}",
+					url: "{{ path('campus_delete') }}",
 					method: 'GET',
 					data: { campus_id: campus_id },
 					success: function(data) {

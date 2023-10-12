@@ -12,15 +12,24 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CampusController extends AbstractController
 {
+    private $entityManager;
+    private $campusRepository;
+    
+    public function __construct(EntityManagerInterface $entityManager, CampusRepository $campusRepository)
+    {
+        $this->entityManager = $entityManager;
+        $this->campusRepository = $campusRepository;
+    }
+    
     /**
      * @Route("/campus", name="campus_list")
      */
-    public function list(CampusRepository $campusRepository): Response
+    public function list(): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
-        $campus = $campusRepository->findAll();
+        $campus = $this->campusRepository->findAll();
 
         return $this->render('campus/list.html.twig', [
             'campus' => $campus
@@ -30,16 +39,16 @@ class CampusController extends AbstractController
     /**
      * @Route("/campus/create", name="campus_create")
      */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
         $campus = new Campus();
         $campus->setNom($request->query->get('campus_name'));
 
-        $entityManager->persist($campus);
-        $entityManager->flush();
+        $this->entityManager->persist($campus);
+        $this->entityManager->flush();
 
         return $this->json([
             'success' => true,
@@ -50,16 +59,17 @@ class CampusController extends AbstractController
     /**
      * @Route("/campus/edit", name="campus_edit")
      */
-    public function edit(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
-        $campus = $campusRepository->find($request->query->get('campus_id'));
+
+        $campus = $this->campusRepository->find($request->query->get('campus_id'));
         $campus->setNom($request->query->get('campus_name'));
 
-        $entityManager->persist($campus);
-        $entityManager->flush();
+        $this->entityManager->persist($campus);
+        $this->entityManager->flush();
 
         return $this->json([
             'success' => true,
@@ -68,15 +78,16 @@ class CampusController extends AbstractController
     }
 
     /**
-     * @Route("/campus/remove", name="campus_remove")
+     * @Route("/campus/delete", name="campus_delete")
      */
-    public function remove(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
-        $camp = $campusRepository->find($request->query->get('campus_id'));
-        $campusRepository->remove($camp, true);
+
+        $campus = $this->campusRepository->find($request->query->get('campus_id'));
+        $this->campusRepository->remove($campus, true);
 
         return $this->json([
             'success' => true
