@@ -81,7 +81,7 @@ class SortieController extends AbstractController
             $sortie->setParticipantOrganisateur($this->getUser());
             $sortie->setEtat($this->etatRepository->findOneBy(['libelle' => 'Créée']));
             $this->sortieRepository->add($sortie, true);
-            $this->register($sortie);
+            $this->register(new Request(['sortie_id' => $sortie->getId()]));
             if ($request->request->has('publier')) {
                 return $this->publish($sortie);
             }
@@ -166,8 +166,8 @@ class SortieController extends AbstractController
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
         }
-        if ($sortie->getDateLimiteInscription() < getdate()) {
-            return $this->redirectToRoute('sortie_list');
+        if ($sortie->getParticipants()->count() === $sortie->getNbInscriptionsMax() || $sortie->getDateLimiteInscription() < getdate()) {
+            return new Response('Vous ne pouvez pas vous inscrire à cette sortie.', Response::HTTP_FORBIDDEN);
         }
         $sortie->addParticipant($this->getUser());
         $this->sortieRepository->add($sortie, true);

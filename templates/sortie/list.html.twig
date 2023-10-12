@@ -114,7 +114,7 @@
 								{% if app.user != sortie.participantOrganisateur and sortie.Etat.libelle == "Ouverte" and (sortie.dateLimiteInscription)|date('d/m/Y') > 'now'|date('d/m/Y') %}
 									{% if app.user in sortie.participants %}
 										<a class="me-3" href={{ path('sortie_unsubscribe', {'sortie_id': sortie.id }) }}><i class="fs-3 text-danger bx bxs-user-minus" data-bs-toggle="tooltip" data-bs-placement="top" title="Se désister"></i></a>
-									{% else %}
+									{% elseif sortie.participants|length < sortie.nbInscriptionsMax %}
 										<a class="me-3" href={{ path('sortie_register', {'sortie_id': sortie.id }) }}><i class="fs-3 text-success bx bxs-user-plus" data-bs-toggle="tooltip" data-bs-placement="top" title="S'inscrire"></i></a>
 									{% endif %}
 								{% endif %}
