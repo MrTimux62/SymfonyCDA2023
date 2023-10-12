@@ -46,7 +46,7 @@ class AdminController extends AbstractController
                 return new Response('Vous ne pouvez pas accéder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
         $user = new Participant();
@@ -94,7 +94,7 @@ class AdminController extends AbstractController
                 return new Response('Vous ne pouvez pas accéder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
         if ($sortie === null) {
@@ -106,9 +106,9 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/participant/delete/{id}", name="admin_participantDelete")
+     * @Route("/admin/participant/delete", name="admin_participantDelete")
      */
-    public function participantDelete(Participant $participant): Response
+    public function participantDelete(Request $request): Response
     {
         if ($this->getUser())
         {
@@ -116,9 +116,10 @@ class AdminController extends AbstractController
                 return new Response('Vous ne pouvez pas accéder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
+        $participant = $this->participantRepository->find($request->query->get('participant_id'));
         if ($participant === null) {
             return new Response('Ce participant n\'existe pas.', Response::HTTP_NOT_FOUND);
         }
@@ -128,9 +129,9 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/lieu/delete/{id}", name="admin_lieuDelete")
+     * @Route("/admin/lieu/delete", name="admin_lieuDelete")
      */
-    public function lieuDelete(Lieu $lieu): Response
+    public function lieuDelete(Request $request): Response
     {
         if ($this->getUser())
         {
@@ -138,9 +139,10 @@ class AdminController extends AbstractController
                 return new Response('Vous ne pouvez pas accéder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
+        $lieu = $this->lieuRepository->find($request->query->get('lieu_id'));
         if ($lieu === null) {
             return new Response('Ce lieu n\'existe pas.', Response::HTTP_NOT_FOUND);
         }
@@ -150,9 +152,9 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/participant/switch/{id}", name="admin_participantSwitch")
+     * @Route("/admin/participant/switch", name="admin_participantSwitch")
      */
-    public function participantSwitch(Participant $participant): Response
+    public function participantSwitch(Request $request): Response
     {
         if ($this->getUser())
         {
@@ -160,9 +162,10 @@ class AdminController extends AbstractController
                 return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
+        $participant = $this->participantRepository->find($request->query->get('participant_id'));
         if ($participant === null) {
             return new Response('Ce participant n\'existe pas.', Response::HTTP_NOT_FOUND);
         }

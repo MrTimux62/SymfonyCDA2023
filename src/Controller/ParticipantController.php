@@ -38,7 +38,7 @@ class ParticipantController extends AbstractController
     public function detail(Participant $participant): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
         if ($participant === null) {
@@ -56,7 +56,7 @@ class ParticipantController extends AbstractController
     public function edit(Request $request, SluggerInterface $slugger): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
         $user = $this->getUser();
         $form = $this->createForm(EditProfileType::class, $user);
@@ -95,7 +95,7 @@ class ParticipantController extends AbstractController
             $em->persist($user);
             $em->flush();
             $this->addFlash('success', 'Profil modifié !');
-            return $this->redirectToRoute('profil');
+            return $this->redirectToRoute('participant_index');
         }
         return $this->render('participant/edit.html.twig', [
             'registrationForm' => $form->createView(),
@@ -104,12 +104,12 @@ class ParticipantController extends AbstractController
 
 
     /**
-     * @Route("profil/edit/password", name="participant_editPassword")
+     * @Route("/participant/edit/password", name="participant_editPassword")
      */
     public function editPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
         $user = $this->getUser();
         $form = $this->createForm(EditPasswordType::class);
@@ -126,7 +126,7 @@ class ParticipantController extends AbstractController
 
             $this->addFlash('success', 'Mot de passe modifié !');
 
-            return $this->redirectToRoute('profil');
+            return $this->redirectToRoute('participant_index');
         }
 
         return $this->render('participant/edit.password.twig', [

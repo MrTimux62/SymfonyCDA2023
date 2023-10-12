@@ -122,7 +122,7 @@
                 var villeId = villeField.val();
                 var deferred = $.Deferred();
                 $.ajax({
-                    url: '{{ path('get_lieu_list_by_ville') }}',
+                    url: '{{ path('lieu_getLieuListByVille') }}',
                     type: 'GET',
                     data: { ville_id: villeId },
                     success: function (data) {
@@ -144,7 +144,7 @@
                 var codePostalField = $('#sortie_form_codePostal');
                 var villeId = villeField.val();
                 $.ajax({
-                    url: '{{ path('get_code_postal') }}',
+                    url: '{{ path('ville_getCodePostal') }}',
                     type: 'GET',
                     data: { ville_id: villeId },
                     success: function (data) {
@@ -160,7 +160,7 @@
                 var longitudeField = $('#sortie_form_longitude');
                 var lieuId = lieuField.val();
                 $.ajax({
-                    url: '{{ path('get_rue_latitude_longitude') }}',
+                    url: '{{ path('lieu_getRueLatitudeLongitude') }}',
                     type: 'GET',
                     data: { lieu_id: lieuId },
                     success: function (data) {

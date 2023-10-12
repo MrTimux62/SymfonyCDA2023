@@ -45,14 +45,14 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     {% if app.user %}
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ path('profil')}}"><i class="fs-3 bi bi-person" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profil"></i></a>
+                            <a class="nav-link" href="{{ path('participant_index')}}"><i class="fs-3 bi bi-person" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profil"></i></a>
                         </li>
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ path('app_logout')}}"><i class="fs-3 bi bi-box-arrow-right" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Déconnexion"></i></a>
+                            <a class="nav-link" href="{{ path('logout')}}"><i class="fs-3 bi bi-box-arrow-right" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Déconnexion"></i></a>
                         </li>
                     {% else %}
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="{{ path('app_login')}}"><i class="fs-3 bi bi-box-arrow-in-right" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Connexion"></i></a>
+                            <a class="nav-link" href="{{ path('login')}}"><i class="fs-3 bi bi-box-arrow-in-right" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Connexion"></i></a>
                         </li>
                     {% endif %}
 

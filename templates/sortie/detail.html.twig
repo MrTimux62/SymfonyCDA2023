@@ -87,7 +87,7 @@
                             <tbody>
                             {% for participant in sortie.participants %}
                                 <tr>
-                                    <td><a class="text-primary text-decoration-none" href="{{ path('profil_view', {'id': participant.id }) }}">{{ participant.pseudo }}</a></td>
+                                    <td><a class="text-primary text-decoration-none" href="{{ path('participant_detail', {'id': participant.id }) }}">{{ participant.pseudo }}</a></td>
                                     <td>{{ participant.prenom }} {{ participant.nom }}</td>
                                 </tr>
                             {% endfor %}

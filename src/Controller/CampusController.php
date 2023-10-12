@@ -27,7 +27,7 @@ class CampusController extends AbstractController
     public function list(): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
         $campus = $this->campusRepository->findAll();
 
@@ -42,7 +42,7 @@ class CampusController extends AbstractController
     public function create(Request $request): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
         $campus = new Campus();
         $campus->setNom($request->query->get('campus_name'));
@@ -57,13 +57,15 @@ class CampusController extends AbstractController
     }
 
     /**
-     * @Route("/campus/edit/{id}", name="campus_edit")
+     * @Route("/campus/edit", name="campus_edit")
      */
-    public function edit(Campus $campus, Request $request): Response
+    public function edit(Request $request): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
+
+        $campus = $this->campusRepository->find($request->query->get('campus_id'));
         $campus->setNom($request->query->get('campus_name'));
 
         $this->entityManager->persist($campus);
@@ -76,13 +78,15 @@ class CampusController extends AbstractController
     }
 
     /**
-     * @Route("/campus/delete/{id}", name="campus_delete")
+     * @Route("/campus/delete", name="campus_delete")
      */
-    public function delete(Campus $campus): Response
+    public function delete(Request $request): Response
     {
         if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
+
+        $campus = $this->campusRepository->find($request->query->get('campus_id'));
         $this->campusRepository->remove($campus, true);
 
         return $this->json([

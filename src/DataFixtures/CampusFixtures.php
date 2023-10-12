@@ -40,7 +40,7 @@ class CampusFixtures extends Fixture
                 $participant->setIsActif(1);
                 $participant->setPassword(password_hash('test123',0));
                 $participant->setRoles(['ROLE_USER']);
-                $participant->setTelephone($faker->phoneNumber);
+                $participant->setTelephone('0'.random_int(111111111, 999999999));
                 $manager->persist($participant);
             }
         }

@@ -56,7 +56,7 @@ class EditPasswordType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('Valdier', SubmitType::class)
+            ->add('Valider', SubmitType::class)
         ;
     }
 
