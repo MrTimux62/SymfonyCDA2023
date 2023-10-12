@@ -39,6 +39,21 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+    * @return Sortie[] Returns an array of Sortie objects
+    */
+    public function findAllNonArchive(): array
+    {
+        $delay = new \Datetime('last month');
+
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.dateHeureDebut >= :delay')
+            ->setParameter('delay', $delay)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Sortie[] Returns an array of Sortie objects
 //     */
