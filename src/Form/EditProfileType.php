@@ -22,7 +22,7 @@ class EditProfileType extends AbstractType
         $builder
             ->add('pseudo', TextType::class, [
                 'label' => 'Votre Pseudo :',
-                'label_attr' => ['class' => 'info-label'],
+                'label_attr' => ['class' => 'form-control'],
                 'attr' => [
                     'maxlength' => 100,
                     'class' => 'info-value'
@@ -39,7 +39,7 @@ class EditProfileType extends AbstractType
             ])
             ->add('email', EmailType::class , [
                 'label' => 'Adresse mail :',
-                'label_attr' => ['class' => 'info-label'],
+                'label_attr' => ['class' => 'form-control'],
                 'attr' => [
                     'maxlength' => 180,
                     'class' => 'info-value'
@@ -56,7 +56,7 @@ class EditProfileType extends AbstractType
             ])
             ->add('nom', TextType::class , [
                 'label' => 'Votre Nom :',
-                'label_attr' => ['class' => 'info-label'],
+                'label_attr' => ['class' => 'form-control'],
                 'attr' => [
                     'maxlength' => 50,
                     'class' => 'info-value'
@@ -73,7 +73,7 @@ class EditProfileType extends AbstractType
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Votre Prénom :',
-                'label_attr' => ['class' => 'info-label'],
+                'label_attr' => ['class' => 'form-control'],
                 'attr' => [
                     'maxlength' => 50,
                     'class' => 'info-value'
@@ -90,7 +90,7 @@ class EditProfileType extends AbstractType
             ])
             ->add('telephone', TextType::class, [
                 'label' => 'Numéro de téléphone :',
-                'label_attr' => ['class' => 'info-label'],
+                'label_attr' => ['class' => 'form-control'],
                 'attr' => [
                     'maxlength' => 10,
                     'class' => 'info-value'
@@ -107,7 +107,7 @@ class EditProfileType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'label' => 'Photo de profil',
-                'label_attr' => ['class' => 'info-label'],
+                'label_attr' => ['class' => 'form-control'],
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
