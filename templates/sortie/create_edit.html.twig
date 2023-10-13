@@ -108,7 +108,7 @@
             <button type="submit" class="btn btn-outline-success">Enregistrer</button>
             <button type="submit" name="publier" class="btn btn-outline-success">Publier la sortie</button>
             {% if app.request.attributes.get('_route') == 'sortie_edit' %}
-                <input type="button" class="btn btn-outline-warning" onclick="location.href='{{ path('sortie_delete', {'sortie_id': sortieId }) }}';" value="Supprimer la sortie"></input>
+                <input type="button" class="btn btn-outline-warning" onclick="location.href='{{ path('sortie_delete', {'id': sortie.id }) }}';" value="Supprimer la sortie"></input>
             {% endif %}
             <input type="button" class="btn btn-outline-danger" onclick="location.href='{{ path('sortie_list') }}';" value="Annuler"></input>
         </div>
@@ -122,7 +122,7 @@
                 var villeId = villeField.val();
                 var deferred = $.Deferred();
                 $.ajax({
-                    url: '{{ path('get_lieu_list_by_ville') }}',
+                    url: '{{ path('lieu_getLieuListByVille') }}',
                     type: 'GET',
                     data: { ville_id: villeId },
                     success: function (data) {
@@ -144,7 +144,7 @@
                 var codePostalField = $('#sortie_form_codePostal');
                 var villeId = villeField.val();
                 $.ajax({
-                    url: '{{ path('get_code_postal') }}',
+                    url: '{{ path('ville_getCodePostal') }}',
                     type: 'GET',
                     data: { ville_id: villeId },
                     success: function (data) {
@@ -160,7 +160,7 @@
                 var longitudeField = $('#sortie_form_longitude');
                 var lieuId = lieuField.val();
                 $.ajax({
-                    url: '{{ path('get_rue_latitude_longitude') }}',
+                    url: '{{ path('lieu_getRueLatitudeLongitude') }}',
                     type: 'GET',
                     data: { lieu_id: lieuId },
                     success: function (data) {

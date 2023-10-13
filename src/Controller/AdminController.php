@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
 use App\Entity\Participant;
-use App\Entity\Ville;
+use App\Entity\Sortie;
 use App\Form\RegistrationFormType;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
-use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,28 +22,32 @@ class AdminController extends AbstractController
     private $participantRepository;
     private $sortieRepository;
     private $lieuRepository;
+    private $entityManager;
 
-    public function __construct(ParticipantRepository $participantRepository, SortieRepository $sortieRepository, LieuRepository $lieuRepository)
+    public function __construct(ParticipantRepository $participantRepository,
+                                SortieRepository $sortieRepository,
+                                LieuRepository $lieuRepository,
+                                EntityManagerInterface $entityManager)
     {
         $this->participantRepository = $participantRepository;
         $this->sortieRepository = $sortieRepository;
         $this->lieuRepository = $lieuRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
      * @Route("/admin", name="admin_home")
      */
-    public function home(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function home(Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         if ($this->getUser())
         {
             if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
-                return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+                return new Response('Vous ne pouvez pas accéder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
-
 
         $user = new Participant();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -63,8 +67,8 @@ class AdminController extends AbstractController
             $user->setIsActif(true);
             $user->setRoles(['ROLE_USER']);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
         }
 
         $participants = $this->participantRepository->findAll();
@@ -80,20 +84,19 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/sortie/delete", name="admin_sortie_delete")
+     * @Route("/admin/sortie/delete/{id}", name="admin_sortieDelete")
      */
-    public function sortieDelete(Request $request): Response
+    public function sortieDelete(Sortie $sortie): Response
     {
         if ($this->getUser())
         {
             if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
-                return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+                return new Response('Vous ne pouvez pas accéder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
-        $sortie = $this->sortieRepository->find($request->query->get('sortie_id'));
         if ($sortie === null) {
             return new Response('Cette sortie n\'existe pas.', Response::HTTP_NOT_FOUND);
         }
@@ -103,17 +106,17 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/participant/delete", name="admin_participant_delete")
+     * @Route("/admin/participant/delete", name="admin_participantDelete")
      */
     public function participantDelete(Request $request): Response
     {
         if ($this->getUser())
         {
             if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
-                return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+                return new Response('Vous ne pouvez pas accéder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
         $participant = $this->participantRepository->find($request->query->get('participant_id'));
@@ -121,22 +124,22 @@ class AdminController extends AbstractController
             return new Response('Ce participant n\'existe pas.', Response::HTTP_NOT_FOUND);
         }
         $this->participantRepository->remove($participant, true);
-        $this->addFlash('warning', 'Participant supprimée avec succès !');
+        $this->addFlash('warning', 'Participant supprimé avec succès !');
         return $this->redirectToRoute('admin_home');
     }
 
     /**
-     * @Route("/admin/lieu/delete", name="admin_lieu_delete")
+     * @Route("/admin/lieu/delete", name="admin_lieuDelete")
      */
     public function lieuDelete(Request $request): Response
     {
         if ($this->getUser())
         {
             if (!in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)) {
-                return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
+                return new Response('Vous ne pouvez pas accéder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
         $lieu = $this->lieuRepository->find($request->query->get('lieu_id'));
@@ -144,12 +147,12 @@ class AdminController extends AbstractController
             return new Response('Ce lieu n\'existe pas.', Response::HTTP_NOT_FOUND);
         }
         $this->lieuRepository->remove($lieu, true);
-        $this->addFlash('warning', 'Lieu supprimée avec succès !');
+        $this->addFlash('warning', 'Lieu supprimé avec succès !');
         return $this->redirectToRoute('admin_home');
     }
 
     /**
-     * @Route("/admin/participant/switch", name="admin_participant_switch")
+     * @Route("/admin/participant/switch", name="admin_participantSwitch")
      */
     public function participantSwitch(Request $request): Response
     {
@@ -159,7 +162,7 @@ class AdminController extends AbstractController
                 return new Response('Vous ne pouvez pas accèder à cette page.', Response::HTTP_FORBIDDEN);
             }
         } else {
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('login');
         }
 
         $participant = $this->participantRepository->find($request->query->get('participant_id'));

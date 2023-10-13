@@ -96,7 +96,7 @@
                                             <td>{{ lieu.rue }}</td>
                                             <td>{{ lieu.latitude }}</td>
                                             <td>{{ lieu.longitude }}</td>
-                                            <td><a class="me-3" href="{{ path('admin_lieu_delete', {'lieu_id': lieu.id }) }}"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"></i></a></td>
+                                            <td><a class="me-3" href="{{ path('admin_lieuDelete', {'lieu_id': lieu.id }) }}"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"></i></a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -133,9 +133,9 @@
                                             <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
                                             <td>{{ sortie.Etat.libelle }}</td>
                                             <td>{% if app.user in sortie.participants %}<i class="fs-3 text-success bx bxs-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Actif"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Non actif"></i>{% endif %}</td>
-                                            <td><a class="text-primary text-decoration-none" href="{{ path('profil_view', {'id': sortie.participantOrganisateur.id }) }}">{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</a></td>
+                                            <td><a class="text-primary text-decoration-none" href="{{ path('participant_detail', {'id': sortie.participantOrganisateur.id }) }}">{{ sortie.participantOrganisateur.prenom }} {{ sortie.participantOrganisateur.nom }}</a></td>
                                             <td>
-                                                <a class="me-3" href="{{ path('admin_sortie_delete', {'sortie_id': sortie.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Annuler"></i></a>
+                                                <a class="me-3" href="{{ path('admin_sortieDelete', {'id': sortie.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Annuler"></i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -169,15 +169,15 @@
                                     {% for participant in participants %}
                                         <tr>
                                             <th scope="row">{{ participant.email }}</th>
-                                            <td><a class="text-primary text-decoration-none" href="{{ path('profil_view', {'id': participant.id }) }}">{{ participant.pseudo }}</a></td>
+                                            <td><a class="text-primary text-decoration-none" href="{{ path('participant_detail', {'id': participant.id }) }}">{{ participant.pseudo }}</a></td>
                                             <td>{% for role in participant.roles %} {{ role }} {% endfor %}</td>
                                             <td>{{ participant.nom }}</td>
                                             <td>{{ participant.prenom }}</td>
                                             <td>{{ participant.telephone }}</td>
                                             <td>{% if participant.actif %}<i class="fs-3 text-success bx bxs-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Actif"></i>{% else %}<i class="fs-3 text-danger bx bxs-x-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Non actif"></i>{% endif %}</td>
                                             <td>
-                                                <a class="me-3" href="{{ path('admin_participant_delete', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"></i></a>
-                                                <a href="{{ path('admin_participant_switch', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')">{% if participant.actif %}<i class="fs-3 text-danger bx bxs-user-x" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Désactiver"></i>{% else %}<i class="fs-3 text-success bx bxs-user-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Activer"></i>{% endif %}</a>
+                                                <a class="me-3" href="{{ path('admin_participantDelete', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')"><i class="fs-3 text-danger bx bxs-trash" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer"></i></a>
+                                                <a href="{{ path('admin_participantSwitch', {'participant_id': participant.id }) }}" onclick="return confirm('Êtes vous sûr ?')">{% if participant.actif %}<i class="fs-3 text-danger bx bxs-user-x" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Désactiver"></i>{% else %}<i class="fs-3 text-success bx bxs-user-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Activer"></i>{% endif %}</a>
                                             </td>
                                         </tr>
                                     {% endfor %}
