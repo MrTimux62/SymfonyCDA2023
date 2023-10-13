@@ -20,7 +20,7 @@ class EditPasswordType extends AbstractType
         $builder
             ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe actuel',
-                'label_attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'info-label'],
                 'constraints' => [
                     //on s'assure que le mot de passe actuel est bon !
                     new UserPassword([
@@ -36,11 +36,11 @@ class EditPasswordType extends AbstractType
                 'required' => true,
                 'first_options'  => [
                     'label' => 'Nouveau mot de passe',
-                    'label_attr' => ['class' => 'form-control'],
+                    'label_attr' => ['class' => 'info-label'],
                 ],
                 'second_options' => [
                     'label' => 'Confirmer votre mot de passe',
-                    'label_attr' => ['class' => 'form-control'],
+                    'label_attr' => ['class' => 'info-label'],
                 ],
                 //la validation est faite directement ici, pourquoi pas
                 //sinon, il fallait créer une propriété "bidon" dans l'entité pour utiliser les Assert()

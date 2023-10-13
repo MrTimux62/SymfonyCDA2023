@@ -22,10 +22,10 @@ class EditProfileType extends AbstractType
         $builder
             ->add('pseudo', TextType::class, [
                 'label' => 'Votre Pseudo :',
-                'label_attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'info-label'],
                 'attr' => [
                     'maxlength' => 100,
-                    'class' => 'info-value'
+                    'class' => 'info-value form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -39,10 +39,10 @@ class EditProfileType extends AbstractType
             ])
             ->add('email', EmailType::class , [
                 'label' => 'Adresse mail :',
-                'label_attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'info-label'],
                 'attr' => [
                     'maxlength' => 180,
-                    'class' => 'info-value'
+                    'class' => 'info-value form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -56,10 +56,10 @@ class EditProfileType extends AbstractType
             ])
             ->add('nom', TextType::class , [
                 'label' => 'Votre Nom :',
-                'label_attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'info-label'],
                 'attr' => [
                     'maxlength' => 50,
-                    'class' => 'info-value'
+                    'class' => 'info-value form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -73,10 +73,10 @@ class EditProfileType extends AbstractType
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Votre Prénom :',
-                'label_attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'info-label'],
                 'attr' => [
                     'maxlength' => 50,
-                    'class' => 'info-value'
+                    'class' => 'info-value form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -90,10 +90,10 @@ class EditProfileType extends AbstractType
             ])
             ->add('telephone', TextType::class, [
                 'label' => 'Numéro de téléphone :',
-                'label_attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'info-label'],
                 'attr' => [
                     'maxlength' => 10,
-                    'class' => 'info-value'
+                    'class' => 'info-value form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -107,7 +107,7 @@ class EditProfileType extends AbstractType
             ])
             ->add('imageFile', FileType::class, [
                 'label' => 'Photo de profil',
-                'label_attr' => ['class' => 'form-control'],
+                'label_attr' => ['class' => 'info-label'],
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
